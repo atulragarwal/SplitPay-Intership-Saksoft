@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SplitPay</title>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link rel="Stylesheet" href="../CSS/login.css">
+        <link rel="icon" type="image" href="../Images/icon.jpg">
+        <link rel="stylesheet" href="../CSS/payments.css">
+        <link rel="stylesheet" href="../CSS/pay.css">
+        <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+        <script src="https://kit.fontawesome.com/bc6f27e589.js" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    </head>
+    <body>
+        <div class="m-container">
+            <div class="b-head">
+                <a href="home.html"><i class="fas fa-arrow-left"></i></a><a style="float: right;" href="https://docs.google.com/document/d/1XRGH7iECFYXqqP-rYERKpPSdEJZUMrsEKaR2Om5JhM0/edit?usp=sharing"><i class="far fa-question-circle"></i></a><br>
+                <h3>Now Paying</h3>
+            </div>
+            <div class="paymentForm">
+                <form onsubmit="return createPayment()" action="home.html" id="paymentDetailsForm">
+
+                    <label for="payeeNumber">Enter Phone Number:</label><br>
+                    <input class = "amtInput" id="payeeNumber" type="tel" required placeholder="XXXXX XXXXX"><br><br>
+                    <label for="paymentAmt">Enter Amount</label><br>
+                    <input class="amtInput" id="paymentAmt" type="number" required placeholder="Rs.XX.XX"><br><br>
+                    <label for="paymentNote">Enter Note</label><br>
+                    <input class="amtInput" id="paymentNote" type="text" required placeholder="Note"><br><br>
+                    <input value="Pay" type="submit">
+                </form>
+            </div>
+            <div class="bottomNav" style="background-color: rgb(242,242,242);">
+                <div class="paymentOption">
+                    <i class="fas fa-money-bill-wave-alt"></i>
+                    <p><a href="home.html">Payments</a></p>
+                </div>
+                <div class="paymentOption">
+                    <i class="fas fa-chart-pie"></i>
+                    <p><a href="splitCollect.html">Splits</a></p>
+                </div>
+                <div class="paymentOption">
+                    <i class="fas fa-cog"></i>
+                    <p><a href="userSettings.html">Settings</a></p>
+                </div>
+            </div>
+        </div>
+        
+        <script>
+
+            let tokenId = sessionStorage.getItem('userToken');
+            console.log('Token '+tokenId);
+
+            document.getElementById('paymentDetailsForm').addEventListener('submit', (e) =>{
+                e.preventDefault();
+            })
+            function createPayment(){
+                document.getElementById('paymentDetailsForm').addEventListener('submit', (e) =>{
+                e.preventDefault();
+            });
+
+            let statusCheck = 'true';
+            let payAmt = document.getElementById("paymentAmt").value;
+            let payReceiver = document.getElementById('payeeNumber').value;
+            let payNote = document.getElementById('paymentNote').value;
+
+            if(payReceiver.length != 10){
+                alert("invalid phone number format.");
+                return false;
+            }
+
+            fetch('http://127.0.0.1:8000/splitpay/payment/',{
+                // mode:'no-cors',
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'User-Agent': 'PostmanRuntime/7.28.0',
+                    'Authorization': 'Token '+tokenId
+                },
+                body: JSON.stringify({
+                    "amount": parseInt(payAmt),
+                    "reason": payNote,
+                    "payee": payReceiver
+                })
+            }).then(res =>{
+                let resStatus = res.status;
+                if((resStatus==200) || (resStatus==201)){
+                return res.json();}
+                else{
+                    statusCheck = 'false';
+                    return res.json();
+                }
+                
+            })
+            .then(data => {
+                
+                if(statusCheck === 'false'){
+                    alert(data.message);
+                    return false;
+                }
+                window.location.href = 'http://127.0.0.1:5500/Frontend/HTML/home.html';
+                console.log(data);})
+            .catch(error => {
+                console.log('error'+error);
+            })
+        }
+        </script>
+    </body>
+</html>

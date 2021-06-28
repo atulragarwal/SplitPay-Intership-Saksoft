@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SplitPay</title>
+        <link rel="icon" type="image" href="../Images/icon.jpg">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link rel="Stylesheet" href="../CSS/login.css">
+        <link rel="stylesheet" href="../CSS/payments.css">
+        <link rel="stylesheet" href="../CSS/settings.css">
+        <link rel="stylesheet" href="../CSS/settle.css">
+        <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+        <script src="https://kit.fontawesome.com/bc6f27e589.js" crossorigin="anonymous"></script>
+        <style>
+            .rowGap{
+                height: 20px;
+                outline: none;
+            }
+            .rowGap > td{
+                outline: 0px;
+            }
+            .userDetails{
+                margin-top: 30px;
+            }
+            .userDetails > img{
+                margin-left: 15px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="m-container" >
+            <div class="b-head">
+                <div class="userDetails">
+                    <img id="userDisp" src="" class="userImage">
+                    <div class="textDetails">
+                        <h4 id="settleUser" style="font-size: 30px;"></h4>
+                    </div>
+                </div>
+                <!-- <h3  style="display: inline-block; font-size: 40px;margin-left: 15px;"></h3> -->
+            </div>
+            <div class="userDetails">
+                <div style="height: 100px;padding-top: 20px;" class="u-card">
+                    <!-- <div class="card-left"> -->
+                        <p id="renderName" class="card-det">You Balance is: <i class="fas fa-rupee-sign"></i> <span id="transBalance"></span></p>
+                    <!-- </div> -->
+                </div><br>
+                
+            </div>
+            <div style="display: flex;justify-content: center;align-items: center;">
+                <a href="settleOptions.html" class="payButton addButton">Settle Up</a>
+                </div>
+                <div style="margin-left: 15px;font-size: 25px;">
+                    <table id="friendTrans">
+                    </table>
+                </div>
+
+
+
+                <div class="bottomNav" style="background-color: rgb(242,242,242);">
+                    <div class="paymentOption">
+                        <i class="fas fa-money-bill-wave-alt"></i>
+                        <p><a href="home.html">Payments</a></p>
+                    </div>
+                    <div class="paymentOption">
+                        <i class="fas fa-chart-pie"></i>
+                        <p><a href="splitCollect.html">Splits</a></p>
+                    </div>
+                    <div class="paymentOption">
+                        <i class="fas fa-cog"></i>
+                        <p><a href="userSettings.html">Settings</a></p>
+                    </div>
+                </div>
+        </div>
+        <script>
+            let tokenId = sessionStorage.getItem('userToken');
+            console.log('Token '+tokenId);
+
+            let userCode = sessionStorage.getItem('userIdentity');
+            console.log('ID: '+userCode);
+
+            fetchUrl = 'http://127.0.0.1:8000/splitpay/split/'+userCode+'/';
+            fetch(fetchUrl,{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'User-Agent': 'PostmanRuntime/7.28.0',
+                'Authorization': 'Token '+tokenId
+            },
+        }).then(res =>{
+            return res.json()
+        })
+        .then(data => {
+            console.log(data);
+
+            document.getElementById('transBalance').innerHTML = data.money;
+
+            document.getElementById('settleUser').innerHTML = data.user.name;
+            var srcBegin = "http://127.0.0.1:8000";
+            document.getElementById('userDisp').src = srcBegin+data.user.profile_pic;
+
+            let tableId = document.getElementById('friendTrans');
+
+            data.transactions.forEach(element => {
+                console.log(element);
+                tableId.innerHTML += '<tr>'+'<td>'+element.head+'</td>'+'<td>'+element.amount+'</td>'+'<td>'+element.reason+'</td>'+'</tr>'+'<tr class="rowGap">'+'<td></td>'+'<td></td>'+'<td></td>'+'</tr>';
+            });
+        })
+        .catch(error => console.log(error))
+        </script>
+    </body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SplitPay</title>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link rel="Stylesheet" href="../CSS/login.css">
+        <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap" rel="stylesheet">
+        <link rel="icon" type="image" href="../Images/icon.jpg">
+        <style>
+            .m-container{
+                background-image: url(../Images/loginbg.jpeg);
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
+            .b-body{
+                margin-top: 200px;
+            }
+            form{
+                width: 80%;
+            }
+            .userPassword{
+                width:48%;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="m-container">
+            <div class="b-body">
+                <h3>Hey!</h3>
+                <h4>We have your details safe</h4>
+                <table>
+                    <tr>
+                        <th>Name</th>
+                        <td id="renderName"></td>
+                    </tr>
+                    <tr>
+                        <th>Phone Number</th>
+                        <td id="renderBal"></td>
+                    </tr>
+                </table>
+                <a href="userSettings.html">Done</a>
+            </div>
+        </div>
+        <script>
+            let tokenId = sessionStorage.getItem('userToken');
+            console.log('Token '+tokenId)
+
+            //fetching user details
+            fetch('http://127.0.0.1:8000/auth/djoser/users/me/',{
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'User-Agent': 'PostmanRuntime/7.28.0',
+                    'Authorization': 'Token '+tokenId
+                },
+            }).then(res =>{
+                return res.json()
+            })
+            .then(data => {
+                console.log(data);
+                document.getElementById('renderName').innerHTML = data.name;
+                document.getElementById('renderBal').innerHTML = data.phone_number;
+            })
+            .catch(error => console.log('Error'))
+
+
+
+        </script>
+    </body>
+</html>

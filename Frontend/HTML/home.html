@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SplitPay</title>
+        <link rel="icon" type="image" href="../Images/icon.jpg">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link rel="Stylesheet" href="../CSS/login.css">
+        <link rel="stylesheet" href="../CSS/payments.css">
+        <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+        <script src="https://kit.fontawesome.com/bc6f27e589.js" crossorigin="anonymous"></script>
+        <style>
+            tr{
+                outline: 1px solid #5c5c5c;
+                text-align: center;
+                height: 50px;
+            }
+            .rowGap{
+                height: 20px;
+            }
+            .payDue{
+                color: red;
+            }
+            .payGet{
+                color: green;
+            }
+            .imgEdit{
+                border: 3px solid #5c07db;
+                border-radius: 50%;
+                width: 50px;
+                height: 50px;
+            }
+        </style>
+    </head>
+    <script>
+        let tokenId = sessionStorage.getItem('userToken');
+        console.log('Token '+tokenId)
+
+        //fetching user details
+        fetch('http://127.0.0.1:8000/auth/djoser/users/me/',{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'User-Agent': 'PostmanRuntime/7.28.0',
+                'Authorization': 'Token '+tokenId
+            },
+        }).then(res =>{
+            return res.json()
+        })
+        .then(data => {
+            console.log(data);
+            document.getElementById('renderName').innerHTML = data.name;
+            document.getElementById('renderBal').innerHTML = data.balance;
+            let qrId = "https://api.qrserver.com/v1/create-qr-code/?data="+data.phone_number+"@paytm&amp;";
+            document.getElementById('userQr').src = qrId;
+        })
+        .catch(error => console.log('Error'))
+
+
+        //fetching frequent transactions
+        fetch('http://127.0.0.1:8000/splitpay/recenttransaction/',{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'User-Agent': 'PostmanRuntime/7.28.0',
+                'Authorization': 'Token '+tokenId
+            },
+        }).then(res =>{
+            return res.json()
+        })
+        .then(recentTrans => {
+            console.log(recentTrans);
+            if(recentTrans.recentTrans.length == 0){
+                document.getElementById('historyRender').innerHTML = "No recent Transactions";
+            }
+            else{
+
+                var nameDisplay =  document.getElementById('displayTable');
+                var amtDisplay = document.getElementById('payAmt');
+                recentTrans.recentTrans.forEach(element => {
+                        console.log(element);
+                        if(element.amount<0){
+                            nameDisplay.innerHTML += '<tr>'+'<td>'+'<img class="imgEdit" width="50px" height="50px" src='+'http://127.0.0.1:8000'+element.profile_pic+'>'+'</td>'+'<td>'+element.username+'</td>'+'<td class="payDue">'+element.amount+'</td>'+'</tr>'+'<tr class="rowGap">'+'<td></td><td></td>'+'</tr>';
+                        }
+
+                        else{
+                            nameDisplay.innerHTML += '<tr>'+'<td>'+'<img class="imgEdit" src='+'http://127.0.0.1:8000'+element.profile_pic+'>'+'</td>'+'<td>'+element.username+'</td>'+'<td class="payGet">'+element.amount+'</td>'+'</tr>'+'<tr class="rowGap">'+'<td></td><td></td>'+'</tr>';
+                        }
+                        
+                });
+            }
+        })
+        .catch(transError => console.log('Error'+transError))
+
+
+    </script>
+    <body>
+        <div class="m-container">
+            <div class="b-head">
+                <h3 style="display: inline-block;">Payments</h3>
+            </a><a style="float: right;" href="https://docs.google.com/document/d/1XRGH7iECFYXqqP-rYERKpPSdEJZUMrsEKaR2Om5JhM0/edit?usp=sharing"><i class="far fa-question-circle"></i></a>
+            </div>
+            <div class="b-body">
+                <div class="u-card">
+                    <div class="card-left">
+                        <p class="card-title">Name</p>
+                        <p id="renderName" class="card-det">Atul Agarwal</p>
+                        <p class="card-title">Balance</p>
+                        <p id="renderBal" class="card-det"><i class="fas fa-rupee-sign"></i> 360.00</p>
+                    </div>
+                    <div class="card-right">
+                        <img id="userQr" width="100px" height="100px" src="">
+                        <p class="card-title">Your Qr Code</p>
+                    </div>
+                </div>
+                <div>
+                <a href="newSplit.html" class="payButton addButton">Add Split</a><a href="pay.html" class="payButton newButton">New Payment</a>
+                </div>
+                <h3>Recent Transactions</h3>
+                <span id="historyRender">
+                <div class="recTrans">
+                    <table id="displayTable">
+                    </table>
+                </div><hr>
+            </span>
+            </div>
+            <div class="bottomNav" style="background-color: rgb(242,242,242);">
+                <div class="paymentOption">
+                    <i class="fas fa-money-bill-wave-alt"></i>
+                    <p><a href="home.html">Payments</a></p>
+                </div>
+                <div class="paymentOption">
+                    <i class="fas fa-chart-pie"></i>
+                    <p><a href="splitCollect.html">Splits</a></p>
+                </div>
+                <div class="paymentOption">
+                    <i class="fas fa-cog"></i>
+                    <p><a href="userSettings.html">Settings</a></p>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

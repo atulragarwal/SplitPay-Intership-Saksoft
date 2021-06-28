@@ -1,0 +1,136 @@
+.u-card {
+  display: flex;
+  background-color: #5c07db;
+  align-items: center;
+  color: white;
+  width: 85%;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 20px;
+  height: 250px;
+}
+.u-img {
+  overflow-x: scroll;
+}
+.u-img::-webkit-scrollbar {
+  display: none;
+}
+.card-left {
+  width: 45%;
+  margin-left: 20px;
+}
+.card-title {
+  font-size: 15px;
+  margin-bottom: 0;
+}
+.card-det {
+  font-size: 30px;
+  margin-top: 0;
+}
+.payButton {
+  text-align: center;
+  width: 150px;
+  display: inline-block;
+  margin: 10px;
+  margin-top: 30px;
+}
+.addButton {
+  border: 3px solid #5c07db;
+  color: #5c07db;
+  background-color: white;
+  border-radius: 10px;
+  padding: 10px;
+}
+.newButton {
+  border: 3px solid #5c07db;
+  color: white;
+  background-color: #5c07db;
+  border-radius: 10px;
+  padding: 10px;
+}
+.u-img {
+  display: flex;
+}
+.freq-cont {
+  margin-left: 20px;
+  margin-right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.userImage {
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  border: 3px solid #5c07db;
+}
+.userName {
+  margin-top: 0;
+  font-size: 20px;
+}
+.recTrans {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.recTrans > img {
+  width: 50px;
+  height: 50px;
+}
+.recTrans > p {
+  /* line-height: 20px;
+  margin-bottom: 10px;
+  padding-bottom: 10px; */
+
+  position: relative;
+  top: 0;
+  font-size: 20px;
+  display: inline-block;
+}
+/* .b-body {
+  background-color: #f2f2f2;
+} */
+.bottomNav {
+  width: 35%;
+  background-color: white;
+  padding-bottom: 0;
+  /* margin-top: 50px; */
+  padding-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  /* align-items: center; */
+  justify-content: space-around;
+}
+.paymentOption {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  padding-bottom: 0;
+}
+.paymentOption > p {
+  margin-top: 0;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+.paymentOption > i {
+  width: 20px;
+  margin-left: auto;
+  margin-right: auto;
+}
+span {
+  margin-bottom: 50px;
+  width: 100%;
+}
+.u-img {
+  overflow-x: scroll;
+}
+.u-img::-webkit-scrollbar {
+  display: none;
+}
