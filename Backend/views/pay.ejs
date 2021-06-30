@@ -30,6 +30,17 @@
                     <input value="Pay" type="submit">
                 </form>
             </div>
+            <ul>
+            <% for(var i = 0; i < details.length; i++) {%>
+                <li>
+                  <!-- Output name from the iterated quote object -->
+                  <span><%= details[i].payer %></span>:
+                  <!-- Output quote from the iterated quote object -->
+                  <span><%= details[i].payee %></span>
+                  <span><%= details[i].amount %></span>
+                </li>
+              <% } %>
+            </ul>
             <div class="bottomNav" style="background-color: rgb(242,242,242);">
                 <div class="paymentOption">
                     <i class="fas fa-money-bill-wave-alt"></i>

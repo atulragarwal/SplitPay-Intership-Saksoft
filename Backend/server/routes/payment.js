@@ -4,10 +4,12 @@ const router = express.Router()
 
 const details = require('../models/paymentSchema')
 
-router.get('/', async(req, res) =>{
+router.get('', async(req, res) =>{
     try{
         const paymentDetails = await details.find()
         res.json(paymentDetails)
+        console.log('hello')
+        console.log(paymentDetails)
     }
     catch(err){
         res.send(err)
@@ -33,7 +35,7 @@ router.post('/', async(req,res) =>{
 
     try{
         const makeNew = await makePayment.save()
-        res.redirect('/home')
+        res.redirect('/')
         res.json(makeNew)
     }
     catch(err){

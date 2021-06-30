@@ -14,17 +14,36 @@ conn.on('open', () => {
 })
 
 app.use(express.json())
-
+app.set('view engine', 'ejs')
 app.use(express.static('public'))
 app.use('/css', express.static(__dirname + 'public/css'))
 app.use('/css', express.static(__dirname + 'public/images'))
 
+app.get("/", (req,res)=> {
+    const cursor = conn.collection('details').find().toArray()
+    .then(results => {
+        console.log("Fetch Success")
+        res.render('pay.ejs', {details: results})
+    })
+    .catch(error => console.log(error))
+    console.log(cursor)
+})
+
 app.get("", (req, res) => {
     res.sendFile(__dirname + '/views/pay.html')
 })
+// app.get('/home', (req,res) => {
+//     res.sendFile(__dirname + '/views/home.html')
+// })
 
-app.get('/home', (req,res) => {
-    res.sendFile(__dirname + '/views/home.html')
+app.get('/home', (req,res) =>{
+    const cursor1 = conn.collection('details').find().toArray()
+    .then(results => {
+        console.log("Home Fetch Success")
+        res.render('home.ejs', {details: results})
+    })
+    .catch(error => console.log(error))
+    console.log(cursor1)
 })
 // app.post("/pays", (req,res) => {
 //     console.log(req.body)
