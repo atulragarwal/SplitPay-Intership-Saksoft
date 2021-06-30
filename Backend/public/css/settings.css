@@ -1,0 +1,26 @@
+.userDetails {
+  display: flex;
+  /* justify-content: space-around; */
+}
+.textDetails {
+  margin-left: 15px;
+}
+.settingOption {
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%;
+  display: flex;
+  border: 3px solid #5c07db;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  align-items: center;
+  height: 100px;
+}
+.settingOption > span > h4 {
+  margin: 0px;
+  padding: 0px;
+}
+.settingOption > span > p {
+  margin: 0px;
+  padding: 0px;
+}

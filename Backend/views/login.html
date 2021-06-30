@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SplitPay</title>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link rel="icon" type="image" href="../Images/icon.jpg">
+        <link rel="Stylesheet" href="../CSS/login.css">
+        <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap" rel="stylesheet">
+        <style>
+            .m-container{
+                background-image: url(../Images/loginbg.jpeg);
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
+            .b-body{
+                margin-top: 200px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="m-container">
+            <div class="b-body">
+                <h3>Welcome Back!</h3>
+                <h4>Log in to jump back in</h4>
+                <form id="form" onsubmit="return validateUser()">
+                    <label for="u-email">Your Email</label><br>
+                    <input id="u-email" required placeholder="xyz@xyz.com" type="email"><br>
+                    <label for="u-pass">Your Phone Number</label><br>
+                    <input id="u-pass" placeholder="Password" required type="password"><br>
+                    <!-- <a href="#">Forgot Password</a> -->
+                    <input type="submit" value="Continue">
+                </form>
+                <a href="signup.html">Click Here to Sign Up</a>
+            </div>
+        </div>
+        <script>
+            document.getElementById('form').addEventListener('submit', (e) =>{
+                e.preventDefault();
+            })
+            function validateUser()
+            {
+                let userId = document.getElementById("u-email").value;
+                let userPassword = document.getElementById("u-pass").value;
+                fetch('http://127.0.0.1:8000/auth/djoser/token/login/',{
+                // mode:'no-cors',
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'User-Agent': 'PostmanRuntime/7.28.0'
+                },
+                body: JSON.stringify({
+                    "email": userId,
+                    "password": userPassword,
+                })
+            }).then(res =>{
+                return res.json();
+            })
+            .then(data => {
+
+                    sessionStorage.setItem('userToken', data.auth_token);
+                    console.log('Success');
+                    window.location.href = 'http://127.0.0.1:5500/Frontend/HTML/home.html';
+                console.log(data);})
+            .catch(error => console.log(error))
+            }
+        </script>
+    </body>
+</html>

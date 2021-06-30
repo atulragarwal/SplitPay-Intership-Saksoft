@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SplitPay</title>
+        <link rel="icon" type="image" href="../Images/icon.jpg">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link rel="Stylesheet" href="../CSS/login.css">
+        <link rel="stylesheet" href="../CSS/payments.css">
+        <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+        <script src="https://kit.fontawesome.com/bc6f27e589.js" crossorigin="anonymous"></script>
+        <style>
+            .u-card{
+                margin-top: 20px;
+                background-color: limegreen;
+                /* opacity: 0.8; */
+                text-align: center;
+                height: 80px;
+            }
+            .u-card > p{
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: 20px;
+            }
+            #displayTable{
+                width: 100%;
+            }
+            #displayTable > tr{
+                width:100%;
+            }
+            tr{
+                outline: 1px solid;
+            }
+            .rowGap{
+                height: 20px;
+            }
+            .payDue{
+                color: red;
+            }
+            .payGet{
+                color: green;
+            }
+            .imgEdit{
+                border: 3px solid #5c07db;
+                border-radius: 50%;
+                width: 50px;
+                height: 50px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="m-container">
+            <div class="b-head">
+                <h3>Splits Collections</h3>
+            <a style="float: right;" href="https://docs.google.com/document/d/1XRGH7iECFYXqqP-rYERKpPSdEJZUMrsEKaR2Om5JhM0/edit?usp=sharing"><i class="far fa-question-circle"></i></a>
+            </div>
+            <div class="b-body">
+                <div class="u-card">
+                    <!-- <div class="card-left"> -->
+                        <p id="renderName" class="card-det">Your total balance is:<i class="fas fa-rupee-sign"></i> <span id="amtTotal"></span></p>
+                    <!-- </div> -->
+                </div>
+                <h3 style="float: left;">Active Splits</h3>
+                <div style="width: 95%;margin-left: auto;margin-right: auto;">
+                    <table id="displayTable">
+                    </table>
+                </div>
+                <h3>All Splits</h3>
+                <span>
+                    <table id="displayTable1">
+                    </table>
+            </span>
+            </div>
+            <div class="bottomNav" style="background-color: rgb(242,242,242);">
+                <div class="paymentOption">
+                    <i class="fas fa-money-bill-wave-alt"></i>
+                    <p><a href="home.html">Payments</a></p>
+                </div>
+                <div class="paymentOption">
+                    <i class="fas fa-chart-pie"></i>
+                    <p><a href="splitCollect.html">Splits</a></p>
+                </div>
+                <div class="paymentOption">
+                    <i class="fas fa-cog"></i>
+                    <p><a href="userSettings.html">Settings</a></p>
+                </div>
+            </div>
+        </div>
+        <script>
+            let tokenId = sessionStorage.getItem('userToken');
+            console.log('Token '+tokenId);
+            fetch('http://127.0.0.1:8000/splitpay/splits/',{
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'User-Agent': 'PostmanRuntime/7.28.0',
+                    'Authorization': 'Token '+tokenId
+                },
+            }).then(res =>{
+                return res.json()
+            })
+            .then(data => {
+                console.log(data);
+                document.getElementById("amtTotal").innerHTML = data.money;
+                var nameDisplay =  document.getElementById('displayTable');
+                var allDisplay =  document.getElementById('displayTable1');
+                data.active_splits.forEach(element => {
+                    console.log(element);
+                    nameDisplay.innerHTML += '<tr>'+'<td>'+element.username+'</td>'+'<td>'+element.amount+'</td>'+'<td>'+
+                        '<form action="settleUp.html"  class="test" name="userSettle" onsubmit="return goSettle('+element.userid+')">'+'<input type="submit" value="Settle">'+
+                            '</form>'
+                        +'</td>'+'</tr>'+'<tr class="rowGap">'+'<td></td><td></td>'+'</tr>';
+                });
+                data.all_splits.forEach(element => {
+                    allDisplay.innerHTML += '<tr>'+'<td>'+'<img class="imgEdit" src='+'http://127.0.0.1:8000'+element.profile_pic+'>'+'</td>'+'<td>'+element.username+'</td>'+'<td>'+element.amount+'</td>'+'</tr>'+'<tr class="rowGap">'+'<td></td><td></td>'+'</tr>';
+                });
+            })
+            .catch(error => console.log(error))
+
+            // var allDisplay =  document.getElementById('displayTable');
+            // var testData = [{username: 'atul', amount:50,userid:8}];
+            // testData.forEach(element => {
+            //     console.log(element);
+            //     allDisplay.innerHTML += '<tr>'+'<td>'+element.username+'</td>'+'<td>'+element.amount+'</td>'+'<td>'+
+            //         '<form  class="test" name="userSettle" onsubmit="return goSettle('+element.userid+')">'+'<input type="submit" value="Settle">'+
+            //             '</form>'
+            //         +'</td>'+'</tr>';
+            // });
+
+            function goSettle(userSettleId){
+                // var userSettleId = this.userSettle.value;
+                sessionStorage.setItem('userIdentity', userSettleId);
+                window.location.href = "http://127.0.0.1:5500/Frontend/HTML/settleUp.html";
+                // alert(userSettleId);
+                sessionStorage.setItem('userIdentity', userSettleId);
+                // var settleUrl = 'http://127.0.0.1:5500/Frontend/HTML/settleUp.html';
+                window.location.href = "http://127.0.0.1:5500/Frontend/HTML/settleUp.html";
+            }
+        </script>
+    </body>
+</html>

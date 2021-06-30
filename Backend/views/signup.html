@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SplitPay</title>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link rel="Stylesheet" href="../CSS/login.css">
+        <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap" rel="stylesheet">
+        <link rel="icon" type="image" href="../Images/icon.jpg">
+        <style>
+            .m-container{
+                background-image: url(../Images/loginbg.jpeg);
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
+            .b-body{
+                margin-top: 200px;
+            }
+            form{
+                width: 80%;
+            }
+            .userPassword{
+                width:48%;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="m-container">
+            <div class="b-body">
+                <h3>Welcome!</h3>
+                <h4>Let's get you started</h4>
+                <h3 id="errorMessage" style="color: red;display: none;">It looks like this email is taken.</h3>
+                <h3 id="errorMessage-1" style="display: none;">Try <a href="login.html">Logging In</a></h3>
+                <form onsubmit="return createUser()" action="login.html" id="form">
+                    <label for="u-name">Your Full Name</label><br>
+                    <input id="u-name" required placeholder="John Doe" type="text"><br>
+                    <label for="u-num">Your Phone Number</label><br>
+                    <input id="u-num" required placeholder="XXXXX XXXXX" type="tel" pattern="[0-9]{10}"><br>
+                    <label for="u-email">Your Email</label><br>
+                    <input id="u-email" required placeholder="xyz@xyz.com" type="email"><br>
+                    <input class="userPassword" id="u-pass" required placeholder="Password" type="password">
+                    <input class="userPassword" id="u-pass-1" required placeholder="Confirm Password" type="password">
+                    <label id="lab-bef" style="color: black;" for="avatar"><i class="fas fa-images"></i>Add Image</label>
+                    <input required type="file" id="avatar" style="display: none;" onchange="dispimg(event)" name="profile_pic"accept="image/png, image/jpeg">
+                    <img accept="image/*" src="" id="img-af" width="50px" height="50px" style="display: none;">
+                    <!-- <a href="#">Forgot Password</a> -->
+                    <input type="submit" value="Continue">
+                </form>
+                <a href="login.html">Click Here to Log In</a>
+            </div>
+        </div>
+        <script>
+            // document.getElementById('form').addEventListener('submit', (e) =>{
+            //     e.preventDefault();
+            // })
+
+            var out;
+
+            var dispimg = function (event)
+            {
+                var disp = document.getElementById("img-af");
+                out = event.target.files[0];
+                disp.style.display = "block";
+                disp.src = URL.createObjectURL(out);
+            };
+            function createUser()
+            {
+                document.getElementById('form').addEventListener('submit', (e) =>{
+                e.preventDefault();
+            });
+                var userName = document.getElementById('u-name').value;
+                var userNumber = document.getElementById('u-num').value;
+                var userEmail = document.getElementById('u-email').value;
+                var userPassword = document.getElementById('u-pass').value;
+                var passwordConfirm = document.getElementById('u-pass-1').value;
+
+                // if(userPassword !== passwordConfirm){
+                //     alert('Passwords must Match!!');
+                //     return false;
+                // }
+                // if((/[0-9]/.test(userName))){
+                //     alert('Your name can only contain letters!');
+                //     return false;
+                // }
+                // if(!(/[0-9]/.test(userPassword))){
+                //     alert("For your safety, you must add digits in your password.");
+                //     return false;
+                // }
+
+                var formData = new FormData();
+
+                formData.append("email", userEmail);
+                formData.append("password", userPassword);
+                formData.append("re_password", passwordConfirm);
+                formData.append("phone_number", userNumber);
+                formData.append("name", userName); // number 123456 is immediately converted to a string "123456"
+                formData.append("profile_pic", out);
+
+                // HTML file input, chosen by user
+                // formData.append("userfile", fileInputElement.files[0]);
+
+                // JavaScript file-like object
+                // var content = '<a id="a"><b id="b">hey!</b></a>'; // the body of the new file...
+                // var blob = new Blob([content], { type: "text/xml"});
+
+                // formData.append("webmasterfile", blob);
+
+                var request = new XMLHttpRequest();
+                request.open("POST", 'http://127.0.0.1:8000/auth/djoser/users/');
+                request.send(formData);
+
+
+            //     fetch('http://127.0.0.1:8000/auth/djoser/users/',{
+            //     // mode:'no-cors',
+            //     method: 'POST',
+            //     headers: {
+            //         'content_type' : 'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW',
+            //         'User-Agent': 'PostmanRuntime/7.28.0'
+            //     },
+            //     body: JSON.stringify({
+            //         "email": userEmail,
+            //         "password": userPassword,
+            //         "re_password": passwordConfirm,
+            //         "phone_number": userNumber,
+            //         "name": userName,
+            //         "profile_pic" : out
+            //     })
+            // }).then(res =>{
+            //     return res.json();
+            // })
+            // .then(data => {
+            //     console.log(data);
+            //     alert(data);
+            //     if(data.id > 0)
+            //     {
+            //         window.location.href = 'http://127.0.0.1:5500/Frontend/HTML/login.html';
+
+            //     }
+            //     console.log(data);})
+            // .catch(error => {
+            //     console.log('error'+error);
+            // })
+            }
+
+        </script>
+        <!-- <script>
+            var dispimg = function (event)
+            {
+                var disp = document.getElementById("img-af");
+                var out = event.target.files[0];
+                disp.style.display = "block";
+                disp.src = URL.createObjectURL(out);
+            };
+        </script> -->
+    </body>
+</html>

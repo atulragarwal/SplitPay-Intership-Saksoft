@@ -1,0 +1,13 @@
+table {
+  margin-top: 20px;
+}
+/* tr {
+  outline: auto;
+  margin-top: 20px;
+} */
+td {
+  outline: auto;
+}
+.gapMaker {
+  height: 15px;
+}

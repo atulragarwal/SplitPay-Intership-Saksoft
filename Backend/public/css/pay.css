@@ -1,0 +1,35 @@
+.b-head {
+  /* display: flex; */
+  font-size: 25px;
+  padding-top: 10px;
+  padding-left: 20px;
+  background-color: #f2f2f2;
+  margin-bottom: 0;
+  padding-bottom: 20px;
+}
+.b-head > h3 {
+  left: 0;
+  margin-bottom: 0;
+  margin-top: 0;
+  padding-top: 0;
+  padding-left: 20px;
+}
+.paymentForm {
+  margin-top: 20px;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.amtInput {
+  width: 80%;
+}
+#splitOption {
+  display: inline-block;
+  font-size: 20px;
+}
+.u-img {
+  overflow-x: scroll;
+}
+.u-img::-webkit-scrollbar {
+  display: none;
+}

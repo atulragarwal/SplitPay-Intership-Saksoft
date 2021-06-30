@@ -33,6 +33,7 @@ router.post('/', async(req,res) =>{
 
     try{
         const makeNew = await makePayment.save()
+        res.redirect('/home')
         res.json(makeNew)
     }
     catch(err){
