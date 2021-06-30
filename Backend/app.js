@@ -19,6 +19,39 @@ app.use(express.static('public'))
 app.use('/css', express.static(__dirname + 'public/css'))
 app.use('/css', express.static(__dirname + 'public/images'))
 
+app.get('/updatePay', (req,res) => {
+    res.sendFile(__dirname + '/views/updatePay.html')
+})
+app.post('/updateDet', (req,res) => {
+    // console.log(req.body)
+    const makeUpdate = conn.collection('details').findOneAndUpdate(
+        {payee : 'Geeta'},
+        {
+            $set : {
+                payer : req.body.payer,
+                payee : req.body.payee,
+                amount : req.body.amount
+            }
+        },
+        {upsert : true, new: true}
+    )
+    .then(result =>{
+        console.log(result)
+    })
+    .catch(error => {console.log(error)})
+})
+
+app.post('/deleteDet', (req,res) => {
+    // console.log(req.body)
+    const makeUpdate = conn.collection('details').deleteOne(
+        {payee : 'Geeta'},
+    )
+    .then(result =>{
+        console.log(result)
+    })
+    .catch(error => {console.log(error)})
+})
+
 app.get("/", (req,res)=> {
     const cursor = conn.collection('details').find().toArray()
     .then(results => {
