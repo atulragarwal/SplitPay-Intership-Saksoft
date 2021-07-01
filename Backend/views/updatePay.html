@@ -17,16 +17,14 @@
         <div class="m-container">
             <div class="b-head">
                 <a href="home"><i class="fas fa-arrow-left"></i></a><a style="float: right;" href="https://docs.google.com/document/d/1XRGH7iECFYXqqP-rYERKpPSdEJZUMrsEKaR2Om5JhM0/edit?usp=sharing"><i class="far fa-question-circle"></i></a><br>
-                <h3>Now Paying</h3>
+                <h3>Now Updating</h3>
             </div>
             <div class="paymentForm">
                 <form method="POST" action="/updateDet" id="paymentDetailsForm">
                     <label for="payeeNumber">Enter Phone Number:</label><br>
-                    <input class = "amtInput" name="payer" id="payeeNumber" type="tel" required placeholder="XXXXX XXXXX"><br><br>
-                    <label for="paymentAmt">Enter Amount</label><br>
-                    <input class="amtInput" name="amount" id="paymentAmt" type="number" required placeholder="Rs.XX.XX"><br><br>
-                    <label for="paymentNote">Enter Note</label><br>
-                    <input class="amtInput" name="payee" id="paymentNote" type="text" required placeholder="Note"><br><br>
+                    <input class = "amtInput" name="payerNum" id="payeeNumber" type="tel" required placeholder="XXXXX XXXXX"><br><br>
+                    <label for="paymentNote">Enter New Note</label><br>
+                    <input class="amtInput" name="updateVal" id="paymentNote" type="text" required placeholder="Note"><br><br>
                     <input value="Pay" type="submit">
                 </form>
             </div>

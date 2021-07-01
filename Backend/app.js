@@ -1,5 +1,6 @@
 const express = require('express')
 const bodyParser= require('body-parser')
+const ObjectId = require('mongodb').ObjectID
 const mongoose = require('mongoose')
 const url = 'mongodb://localhost/splitpaydb'
 const app = express()
@@ -22,29 +23,31 @@ app.use('/css', express.static(__dirname + 'public/images'))
 app.get('/updatePay', (req,res) => {
     res.sendFile(__dirname + '/views/updatePay.html')
 })
+
+app.get('/signup', (req,res) => {
+    res.sendFile(__dirname + '/views/signup.html')
+})
 app.post('/updateDet', (req,res) => {
     // console.log(req.body)
-    const makeUpdate = conn.collection('details').findOneAndUpdate(
-        {payee : 'Geeta'},
-        {
-            $set : {
-                payer : req.body.payer,
-                payee : req.body.payee,
-                amount : req.body.amount
-            }
-        },
-        {upsert : true, new: true}
-    )
-    .then(result =>{
-        console.log(result)
+    const makeUpdate = conn.collection('details').updateOne({payer : req.body.payerNum},
+    {
+        $set : {payee : req.body.updateVal}
+    })
+    .then(results =>{
+        res.redirect('/updatePay')
     })
     .catch(error => {console.log(error)})
+    // console.log(makeUpdate)
+})
+
+app.get('/deletePay', (req,res) =>{
+    res.sendFile(__dirname + '/views/deletePay.html')
 })
 
 app.post('/deleteDet', (req,res) => {
     // console.log(req.body)
     const makeUpdate = conn.collection('details').deleteOne(
-        {payee : 'Geeta'},
+        {payer : req.body.payerDel},
     )
     .then(result =>{
         console.log(result)
@@ -52,6 +55,9 @@ app.post('/deleteDet', (req,res) => {
     .catch(error => {console.log(error)})
 })
 
+// app.get('/checkUser', (req,res) =>{
+//     const checkAll = conn.collection('userdetails').find().toArray().then(results => {console.log(results)})
+// })
 app.get("/", (req,res)=> {
     const cursor = conn.collection('details').find().toArray()
     .then(results => {
@@ -82,8 +88,30 @@ app.get('/home', (req,res) =>{
 //     console.log(req.body)
 // })
 
+app.get('/login', (req,res) => {
+    res.sendFile(__dirname + '/views/login.html')
+})
+
+app.post('/createToken', async(req,res) => {
+    try{
+        const checkAll = await conn.collection('userdetails').findOne({emailId : req.body.uEmail})
+        if(checkAll.password === req.body.uPass){
+            res.redirect('/home')
+        }
+    }
+    catch(err){
+        console.log(err)
+    }
+})
+
 const paymentDetails = require("./server/routes/payment")
 app.use('/payment',paymentDetails)
+
+const userCreate = require("./server/routes/user")
+app.use('/createUser', userCreate)
+
+// const tokenCreate = require("./server/routes/user")
+// app.use('/createToken', tokenCreate)
 
 app.listen(9000, () =>{
     console.log("Server Started")

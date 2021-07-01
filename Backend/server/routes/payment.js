@@ -16,15 +16,15 @@ router.get('', async(req, res) =>{
     }
 })
 
-router.get('/:id', async(req, res) =>{
-    try{
-        const paymentDetail = await details.findById(req.params.id)
-        res.json(paymentDetail)
-    }
-    catch(err){
-        res.send(err)
-    }
-})
+// router.get('/:id', async(req, res) =>{
+//     try{
+//         const paymentDetail = await details.findById(req.params.id)
+//         res.json(paymentDetail)
+//     }
+//     catch(err){
+//         res.send(err)
+//     }
+// })
 
 router.post('/', async(req,res) =>{
     const makePayment = new details({

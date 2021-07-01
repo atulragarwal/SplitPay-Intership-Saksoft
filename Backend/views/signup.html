@@ -30,38 +30,38 @@
                 <h4>Let's get you started</h4>
                 <h3 id="errorMessage" style="color: red;display: none;">It looks like this email is taken.</h3>
                 <h3 id="errorMessage-1" style="display: none;">Try <a href="login.html">Logging In</a></h3>
-                <form onsubmit="return createUser()" action="login.html" id="form">
+                <form action="/createUser" method="POST" id="form">
                     <label for="u-name">Your Full Name</label><br>
-                    <input id="u-name" required placeholder="John Doe" type="text"><br>
+                    <input name="uName" required placeholder="John Doe" type="text"><br>
                     <label for="u-num">Your Phone Number</label><br>
-                    <input id="u-num" required placeholder="XXXXX XXXXX" type="tel" pattern="[0-9]{10}"><br>
-                    <label for="u-email">Your Email</label><br>
-                    <input id="u-email" required placeholder="xyz@xyz.com" type="email"><br>
-                    <input class="userPassword" id="u-pass" required placeholder="Password" type="password">
-                    <input class="userPassword" id="u-pass-1" required placeholder="Confirm Password" type="password">
-                    <label id="lab-bef" style="color: black;" for="avatar"><i class="fas fa-images"></i>Add Image</label>
+                    <input name="uNum" required placeholder="XXXXX XXXXX" type="tel" pattern="[0-9]{10}"><br>
+                    <label for="uEmail">Your Email</label><br>
+                    <input name="uEmail" required placeholder="xyz@xyz.com" type="email"><br>
+                    <input class="userPassword" name="uPass" required placeholder="Password" type="password">
+                    <input class="userPassword" name="u-pass-1" required placeholder="Confirm Password" type="password">
+                    <!-- <label id="lab-bef" style="color: black;" for="avatar"><i class="fas fa-images"></i>Add Image</label>
                     <input required type="file" id="avatar" style="display: none;" onchange="dispimg(event)" name="profile_pic"accept="image/png, image/jpeg">
-                    <img accept="image/*" src="" id="img-af" width="50px" height="50px" style="display: none;">
+                    <img accept="image/*" src="" id="img-af" width="50px" height="50px" style="display: none;"> -->
                     <!-- <a href="#">Forgot Password</a> -->
                     <input type="submit" value="Continue">
                 </form>
                 <a href="login.html">Click Here to Log In</a>
             </div>
         </div>
-        <script>
+        <!-- <script>
             // document.getElementById('form').addEventListener('submit', (e) =>{
             //     e.preventDefault();
             // })
 
-            var out;
+            // var out;
 
-            var dispimg = function (event)
-            {
-                var disp = document.getElementById("img-af");
-                out = event.target.files[0];
-                disp.style.display = "block";
-                disp.src = URL.createObjectURL(out);
-            };
+            // var dispimg = function (event)
+            // {
+            //     var disp = document.getElementById("img-af");
+            //     out = event.target.files[0];
+            //     disp.style.display = "block";
+            //     disp.src = URL.createObjectURL(out);
+            // };
             function createUser()
             {
                 document.getElementById('form').addEventListener('submit', (e) =>{
@@ -141,7 +141,7 @@
             // })
             }
 
-        </script>
+        </script> -->
         <!-- <script>
             var dispimg = function (event)
             {

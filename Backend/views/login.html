@@ -22,18 +22,18 @@
             <div class="b-body">
                 <h3>Welcome Back!</h3>
                 <h4>Log in to jump back in</h4>
-                <form id="form" onsubmit="return validateUser()">
+                <form id="form" method="POST" action="/createToken">
                     <label for="u-email">Your Email</label><br>
-                    <input id="u-email" required placeholder="xyz@xyz.com" type="email"><br>
-                    <label for="u-pass">Your Phone Number</label><br>
-                    <input id="u-pass" placeholder="Password" required type="password"><br>
+                    <input name="uEmail" id="u-email" required placeholder="xyz@xyz.com" type="email"><br>
+                    <label for="u-pass">Your Password</label><br>
+                    <input name=uPass id="u-pass" placeholder="Password" required type="password"><br>
                     <!-- <a href="#">Forgot Password</a> -->
                     <input type="submit" value="Continue">
                 </form>
                 <a href="signup.html">Click Here to Sign Up</a>
             </div>
         </div>
-        <script>
+        <!-- <script>
             document.getElementById('form').addEventListener('submit', (e) =>{
                 e.preventDefault();
             })
@@ -63,6 +63,6 @@
                 console.log(data);})
             .catch(error => console.log(error))
             }
-        </script>
+        </script> -->
     </body>
 </html>
