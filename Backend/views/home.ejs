@@ -140,7 +140,7 @@
                 var nameDisplay =  document.getElementById('displayTable');
                 transDetails.forEach(element => {
                         console.log(element);
-                        nameDisplay.innerHTML += '<tr>'+'<td>'+element.payee+'</td>'+'<td class="payGet">'+element.note+'</td>'+'<td>'+element.amount+'</td>'+'</tr>'+'<tr class="rowGap">'+'<td></td><td></td>'+'</tr>';
+                        nameDisplay.innerHTML += '<tr>'+'<td>'+element.giverName+'</td>'+'<td>'+element.getterName+'</td>'+'<td class="payGet">'+element.giveReason+'</td>'+'<td>'+element.giveAmt+'</td>'+'</tr>'+'<tr class="rowGap">'+'<td></td><td></td>'+'</tr>';
                 });
             }
         })

@@ -107,11 +107,10 @@
                 console.log(data);
                 let collectAmt = 0;
                 var nameDisplay =  document.getElementById('displayTable');
-                // var allDisplay =  document.getElementById('displayTable1');
                 data.forEach(element => {
-                    collectAmt = collectAmt + element.splitAmount;
-                    nameDisplay.innerHTML += '<tr>'+'<td>'+element.splitPayee+'</td>'+'<td>'+element.splitAmount+'</td>'+'<td>'+
-                        '<form action="settleDebt"  class="test" name="userSettle" onsubmit="return goSettle('+element.splitPayee+')">'+'<input type="submit" value="Settle">'+
+                    collectAmt = collectAmt + element.amount1;
+                    nameDisplay.innerHTML += '<tr>'+'<td>'+element.name1+'</td>'+'<td>'+element.amount1+'</td>'+'<td>'+
+                        '<form action="settleDebt"  class="test" name="userSettle" onsubmit="return goSettle('+element.number1+')">'+'<input type="submit" value="Settle">'+
                             '</form>'
                         +'</td>'+'</tr>'+'<tr class="rowGap">'+'<td></td><td></td>'+'</tr>';
                 });
@@ -127,6 +126,25 @@
                 // data.all_splits.forEach(element => {
                 //     allDisplay.innerHTML += '<tr>'+'<td>'+'<img class="imgEdit" src='+'http://127.0.0.1:8000'+element.profile_pic+'>'+'</td>'+'<td>'+element.username+'</td>'+'<td>'+element.amount+'</td>'+'</tr>'+'<tr class="rowGap">'+'<td></td><td></td>'+'</tr>';
                 // });
+            })
+            .catch(error => console.log(error))
+
+            fetch('http://localhost:9000/allSplits',{
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'User-Agent': 'PostmanRuntime/7.28.0',
+                    'Authorization': 'Bearer '+tokenId
+                },
+            }).then(res =>{
+                return res.json()
+            })
+            .then(data => {
+                console.log(data);
+                var allDisplay =  document.getElementById('displayTable1');
+                data.forEach(element => {
+                    allDisplay.innerHTML += '<tr>'+'<td>'+element.giverName+'</td>'+'<td>'+element.getterName+'</td>'+'<td>'+element.giveAmt+'</td>'+'<td>'+element.giveReason+'</td>'+'</tr>'+'<tr class="rowGap">'+'<td></td><td></td>'+'</tr>';
+                });
             })
             .catch(error => console.log(error))
 

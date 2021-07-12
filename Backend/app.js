@@ -145,7 +145,22 @@ app.get('/fetchUserDetail', authenticateToken, async(req,res) => {
 
 app.get('/fetchTransactions', authenticateToken, async(req, res) => {
     const userTrans = await conn.collection('details').find({$or : [{payer : user.phoneNo.toString()}, {payee : user.phoneNo.toString()}]}).toArray()
-    res.json(userTrans)
+    let paymentArray =[]
+    userTrans.forEach(async(element) => {
+        let payerName = await conn.collection('userdetails').find({phoneNo : Number(element.payer)}).toArray()
+        let payeeName = await conn.collection('userdetails').find({phoneNo : Number(element.payee)}).toArray()
+        let transObject = {
+            giverName : payerName[0].name,
+            getterName : payeeName[0].name,
+            giveReason : element.note,
+            giveAmt : element.amount
+        }
+        paymentArray.push(transObject)
+        if(paymentArray.length == userTrans.length){
+            res.json(paymentArray)
+        }
+    })
+    
 })
 
 app.get('/fetchToken', async(req,res) => {
@@ -191,12 +206,58 @@ app.get('/getSplits', async(req,res) => {
 
 app.get('/showCollect', authenticateToken, async(req,res) => {
     const splitCollect = await conn.collection('splitpayments').find({splitPayer : user.phoneNo.toString()}).toArray()
-    res.json(splitCollect)
+    let splitArray = []
+    splitCollect.forEach(async(element) => {
+        let splitCollectName = await conn.collection('userdetails').find({phoneNo : Number(element.splitPayee)}).toArray()
+        let splitObject = {
+            name1 : splitCollectName[0].name,
+            amount1 : element.splitAmount,
+            reason1 : element.splitNote,
+            number1 : splitCollectName[0].phoneNo
+        }
+        splitArray.push(splitObject)
+        if(splitArray.length == splitCollect.length){
+            res.json(splitArray)
+        }
+    })
+    // res.json(splitCollect)
 })
 
 app.get('/showDebt', authenticateToken, async(req,res) => {
     const splitDebt = await conn.collection('splitpayments').find({splitPayee : user.phoneNo.toString()}).toArray()
-    res.json(splitDebt)
+    let debtArray = []
+    splitDebt.forEach(async(element) => {
+        let splitDebtName = await conn.collection('userdetails').find({phoneNo : Number(element.splitPayer)}).toArray()
+        let DebtObject = {
+            name2 : splitDebtName[0].name,
+            amount2 : element.splitAmount,
+            reason2 : element.splitNote,
+            number2 : splitDebtName[0].phoneNo
+        }
+        debtArray.push(DebtObject)
+        if(debtArray.length == splitDebt.length){
+            res.json(debtArray)
+        }
+    })
+})
+
+app.get('/allSplits', authenticateToken, async(req,res) => {
+    const splitAll = await conn.collection('splitpayments').find({$or : [{splitPayee : user.phoneNo.toString()}, {splitPayer : user.phoneNo.toString()}]}).toArray()
+    let allArray = []
+    splitAll.forEach(async(element) => {
+        let splitName = await conn.collection('userdetails').find({phoneNo : Number(element.splitPayer)}).toArray()
+        let debtName = await conn.collection('userdetails').find({phoneNo : Number(element.splitPayee)}).toArray()
+        let allObject = {
+            giverName : splitName[0].name,
+            getterName : debtName[0].name,
+            giveReason : element.splitNote,
+            giveAmt : element.splitAmount
+        }
+        allArray.push(allObject)
+        if(allArray.length == splitAll.length){
+            res.json(allArray)
+        }
+    })
 })
 
 app.get('/splitDebt', async(req,res) => {

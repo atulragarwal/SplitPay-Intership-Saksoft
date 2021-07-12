@@ -109,8 +109,8 @@
                 var nameDisplay =  document.getElementById('displayTable');
                 // // var allDisplay =  document.getElementById('displayTable1');
                 data.forEach(element => {
-                    collectAmt = collectAmt + element.splitAmount;
-                    nameDisplay.innerHTML += '<tr>'+'<td>'+element.splitPayee+'</td>'+'<td>'+element.splitAmount+'</td>'+'</tr>'+'<tr class="rowGap">'+'<td></td><td></td>'+'</tr>';
+                    collectAmt = collectAmt + element.amount2;
+                    nameDisplay.innerHTML += '<tr>'+'<td>'+element.name2+'</td>'+'<td>'+element.amount2+'</td>'+'</tr>'+'<tr class="rowGap">'+'<td></td><td></td>'+'</tr>';
                 });
                 document.getElementById("amtTotal").innerHTML = collectAmt;
                 
