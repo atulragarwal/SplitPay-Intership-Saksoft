@@ -48,7 +48,7 @@
                 
             </div>
             <div style="display: flex;justify-content: center;align-items: center;">
-                <a href="settleOptions.html" class="payButton addButton">Settle Up</a>
+                <a href="/settleOption" class="payButton addButton">Settle Up</a>
                 </div>
                 <div style="margin-left: 15px;font-size: 25px;">
                     <table id="friendTrans">
@@ -73,19 +73,19 @@
                 </div>
         </div>
         <script>
-            let tokenId = sessionStorage.getItem('userToken');
+            let tokenId = sessionStorage.getItem('accessToken');
             console.log('Token '+tokenId);
 
             let userCode = sessionStorage.getItem('userIdentity');
             console.log('ID: '+userCode);
 
-            fetchUrl = 'http://127.0.0.1:8000/splitpay/split/'+userCode+'/';
+            fetchUrl = 'http://localhost:9000/settleUser/'+userCode+'/';
             fetch(fetchUrl,{
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 'User-Agent': 'PostmanRuntime/7.28.0',
-                'Authorization': 'Token '+tokenId
+                'Authorization': 'Bearer '+tokenId
             },
         }).then(res =>{
             return res.json()
@@ -93,18 +93,18 @@
         .then(data => {
             console.log(data);
 
-            document.getElementById('transBalance').innerHTML = data.money;
+            document.getElementById('transBalance').innerHTML = data[0].splitAmount;
 
-            document.getElementById('settleUser').innerHTML = data.user.name;
-            var srcBegin = "http://127.0.0.1:8000";
-            document.getElementById('userDisp').src = srcBegin+data.user.profile_pic;
+            document.getElementById('settleUser').innerHTML = data[0].splitPayee;
+            // var srcBegin = "http://127.0.0.1:8000";
+            // document.getElementById('userDisp').src = srcBegin+data.user.profile_pic;
 
             let tableId = document.getElementById('friendTrans');
 
-            data.transactions.forEach(element => {
-                console.log(element);
-                tableId.innerHTML += '<tr>'+'<td>'+element.head+'</td>'+'<td>'+element.amount+'</td>'+'<td>'+element.reason+'</td>'+'</tr>'+'<tr class="rowGap">'+'<td></td>'+'<td></td>'+'<td></td>'+'</tr>';
-            });
+            // data.forEach(element => {
+            //     console.log(element);
+            //     tableId.innerHTML += '<tr>'+'<td>'+element.head+'</td>'+'<td>'+element.amount+'</td>'+'<td>'+element.reason+'</td>'+'</tr>'+'<tr class="rowGap">'+'<td></td>'+'<td></td>'+'<td></td>'+'</tr>';
+            // });
         })
         .catch(error => console.log(error))
         </script>

@@ -12,6 +12,9 @@ const paySchema = new mongoose.Schema({
     amount:{
         type: Number,
         required: true
+    },
+    note : {
+        type: String
     }
 })
 

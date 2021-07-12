@@ -5,10 +5,12 @@ const userDetailSchema = new mongoose.Schema({
         type: String
     },
     phoneNo : {
-        type : Number
+        type : Number,
+        unique : true
     },
     emailId : {
-        type : String
+        type : String,
+        unique : true
     },
     password : {
         type : String

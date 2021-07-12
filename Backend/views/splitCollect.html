@@ -56,6 +56,9 @@
             <a style="float: right;" href="https://docs.google.com/document/d/1XRGH7iECFYXqqP-rYERKpPSdEJZUMrsEKaR2Om5JhM0/edit?usp=sharing"><i class="far fa-question-circle"></i></a>
             </div>
             <div class="b-body">
+                <div class="topDebt">
+                    <a href="/splitDebt">Go to Debt Page</a>
+                </div>
                 <div class="u-card">
                     <!-- <div class="card-left"> -->
                         <p id="renderName" class="card-det">Your total balance is:<i class="fas fa-rupee-sign"></i> <span id="amtTotal"></span></p>
@@ -88,33 +91,42 @@
             </div>
         </div>
         <script>
-            let tokenId = sessionStorage.getItem('userToken');
+            let tokenId = sessionStorage.getItem('accessToken');
             console.log('Token '+tokenId);
-            fetch('http://127.0.0.1:8000/splitpay/splits/',{
+            fetch('http://localhost:9000/showCollect',{
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                     'User-Agent': 'PostmanRuntime/7.28.0',
-                    'Authorization': 'Token '+tokenId
+                    'Authorization': 'Bearer '+tokenId
                 },
             }).then(res =>{
                 return res.json()
             })
             .then(data => {
                 console.log(data);
-                document.getElementById("amtTotal").innerHTML = data.money;
+                let collectAmt = 0;
                 var nameDisplay =  document.getElementById('displayTable');
-                var allDisplay =  document.getElementById('displayTable1');
-                data.active_splits.forEach(element => {
-                    console.log(element);
-                    nameDisplay.innerHTML += '<tr>'+'<td>'+element.username+'</td>'+'<td>'+element.amount+'</td>'+'<td>'+
-                        '<form action="settleUp.html"  class="test" name="userSettle" onsubmit="return goSettle('+element.userid+')">'+'<input type="submit" value="Settle">'+
+                // var allDisplay =  document.getElementById('displayTable1');
+                data.forEach(element => {
+                    collectAmt = collectAmt + element.splitAmount;
+                    nameDisplay.innerHTML += '<tr>'+'<td>'+element.splitPayee+'</td>'+'<td>'+element.splitAmount+'</td>'+'<td>'+
+                        '<form action="settleDebt"  class="test" name="userSettle" onsubmit="return goSettle('+element.splitPayee+')">'+'<input type="submit" value="Settle">'+
                             '</form>'
                         +'</td>'+'</tr>'+'<tr class="rowGap">'+'<td></td><td></td>'+'</tr>';
                 });
-                data.all_splits.forEach(element => {
-                    allDisplay.innerHTML += '<tr>'+'<td>'+'<img class="imgEdit" src='+'http://127.0.0.1:8000'+element.profile_pic+'>'+'</td>'+'<td>'+element.username+'</td>'+'<td>'+element.amount+'</td>'+'</tr>'+'<tr class="rowGap">'+'<td></td><td></td>'+'</tr>';
-                });
+                document.getElementById("amtTotal").innerHTML = collectAmt;
+                
+                // data.active_splits.forEach(element => {
+                //     console.log(element);
+                //     nameDisplay.innerHTML += '<tr>'+'<td>'+element.username+'</td>'+'<td>'+element.amount+'</td>'+'<td>'+
+                //         '<form action="settleUp.html"  class="test" name="userSettle" onsubmit="return goSettle('+element.userid+')">'+'<input type="submit" value="Settle">'+
+                //             '</form>'
+                //         +'</td>'+'</tr>'+'<tr class="rowGap">'+'<td></td><td></td>'+'</tr>';
+                // });
+                // data.all_splits.forEach(element => {
+                //     allDisplay.innerHTML += '<tr>'+'<td>'+'<img class="imgEdit" src='+'http://127.0.0.1:8000'+element.profile_pic+'>'+'</td>'+'<td>'+element.username+'</td>'+'<td>'+element.amount+'</td>'+'</tr>'+'<tr class="rowGap">'+'<td></td><td></td>'+'</tr>';
+                // });
             })
             .catch(error => console.log(error))
 
@@ -131,11 +143,11 @@
             function goSettle(userSettleId){
                 // var userSettleId = this.userSettle.value;
                 sessionStorage.setItem('userIdentity', userSettleId);
-                window.location.href = "http://127.0.0.1:5500/Frontend/HTML/settleUp.html";
+                // window.location.href = "http://localhost:9000/settleDebt";
                 // alert(userSettleId);
-                sessionStorage.setItem('userIdentity', userSettleId);
+                // sessionStorage.setItem('userIdentity', userSettleId);
                 // var settleUrl = 'http://127.0.0.1:5500/Frontend/HTML/settleUp.html';
-                window.location.href = "http://127.0.0.1:5500/Frontend/HTML/settleUp.html";
+                // window.location.href = "http://127.0.0.1:5500/Frontend/HTML/settleUp.html";
             }
         </script>
     </body>

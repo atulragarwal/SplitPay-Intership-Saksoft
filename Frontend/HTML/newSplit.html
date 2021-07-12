@@ -32,17 +32,17 @@
                 <h3>Now Paying</h3>
             </div>
             <div class="paymentForm">
-                <form onsubmit="return createPayment()" action="home.html" id="paymentDetailsForm">
+                <form onsubmit="return createPayment()" action="/home" id="paymentDetailsForm">
 
                     <label for="paymentAmt">Enter Amount</label><br>
-                    <input class="amtInput" id="paymentAmt" type="number" required placeholder="Rs.XX.XX"><br><br>
+                    <input class="amtInput" name="paymentAmt" id="paymentAmt" type="number" required placeholder="Rs.XX.XX"><br><br>
                     <label for="paymentNote">Enter Note</label><br>
-                    <input class="amtInput" id="paymentNote" type="text" required placeholder="Note">
+                    <input class="amtInput" name="paymentNote" id="paymentNote" type="text" required placeholder="Note">
                     <p id="splitOption">Splitting this payment</p>
                     <i style="margin-left: 80px;" class="fas fa-user-plus"></i>
                     <div class="hiddenToggle">
                     <label for="numberAdd">Enter Number:</label>
-                    <input type="tel" placeholder="Split with" id="numberAdd" class="amtInput">
+                    <input type="tel" name="numberAdd" placeholder="Split with" id="numberAdd" class="amtInput">
                     <span style="font-size: 25px;" onclick="addUser()">Add</span>
                     <p id="numDisplay"></p>
                     </div>
@@ -89,7 +89,7 @@
 
 
 
-            let tokenId = sessionStorage.getItem('userToken');
+            let tokenId = sessionStorage.getItem('accessToken');
             console.log('Token '+tokenId);
 
             document.getElementById('paymentDetailsForm').addEventListener('submit', (e) =>{
@@ -113,18 +113,19 @@
                 return false;
             }
 
-            fetch('http://127.0.0.1:8000/splitpay/splitpayment/',{
+            fetch('http://localhost:9000/makeSplit',{
                 // mode:'no-cors',
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'User-Agent': 'PostmanRuntime/7.28.0',
-                    'Authorization': 'Token '+tokenId
+                    'Authorization': 'Bearer '+tokenId
                 },
                 body: JSON.stringify({
                     "amount": parseInt(payAmt),
                     "reason": payNote,
-                    "payee": splitUsers
+                    "payee": splitUsers,
+                    "length" : splitUsers.length
                 })
             }).then(res =>{
                 let resStatus = res.status;
