@@ -6,6 +6,7 @@ const url = 'mongodb://localhost/splitpaydb'
 const app = express()
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
+const multer = require('multer')
 app.use(bodyParser.urlencoded({ extended: true, limit:'30mb' }));
 app.use(bodyParser.json({extended: true}))
 const path = require('path')
@@ -23,6 +24,23 @@ const conn = mongoose.connection
 
 conn.on('open', () => {
     console.log("Success")
+})
+
+const fileStorage = multer.diskStorage({
+    destination : function(req, file, callback){
+        callback(null, './public/uploads')
+    },
+
+    filename : function(req, file, callback){
+        callback(null, file.originalname)
+    }
+})
+
+const upload = multer({
+    storage : fileStorage,
+    limits : {
+        fileSize : 10000000
+    }
 })
 
 app.use(express.json())
@@ -153,7 +171,9 @@ app.get('/fetchTransactions', authenticateToken, async(req, res) => {
             giverName : payerName[0].name,
             getterName : payeeName[0].name,
             giveReason : element.note,
-            giveAmt : element.amount
+            giveAmt : element.amount,
+            giveImg : payerName[0].userImage,
+            getImg : payeeName[0].userImage
         }
         paymentArray.push(transObject)
         if(paymentArray.length == userTrans.length){
@@ -192,6 +212,7 @@ app.post('/makeSplit', authenticateToken, async(req, res)=>{
             const splitUpdate = await conn.collection('splitpayments').findOneAndUpdate({$and : [{splitPayer : user.phoneNo.toString()}, {splitPayee : splitUsers[i].toString()}]}, {$set : {splitAmount : Number(paymentBalance)}})
         }
     }
+    res.json('User Added Successfully')
     // console.log(splitUsers)
 })
 
@@ -211,6 +232,7 @@ app.get('/showCollect', authenticateToken, async(req,res) => {
         let splitCollectName = await conn.collection('userdetails').find({phoneNo : Number(element.splitPayee)}).toArray()
         let splitObject = {
             name1 : splitCollectName[0].name,
+            img1 : splitCollectName[0].userImage,
             amount1 : element.splitAmount,
             reason1 : element.splitNote,
             number1 : splitCollectName[0].phoneNo
@@ -232,7 +254,8 @@ app.get('/showDebt', authenticateToken, async(req,res) => {
             name2 : splitDebtName[0].name,
             amount2 : element.splitAmount,
             reason2 : element.splitNote,
-            number2 : splitDebtName[0].phoneNo
+            number2 : splitDebtName[0].phoneNo,
+            img2 : splitDebtName[0].userImage
         }
         debtArray.push(DebtObject)
         if(debtArray.length == splitDebt.length){
@@ -251,7 +274,9 @@ app.get('/allSplits', authenticateToken, async(req,res) => {
             giverName : splitName[0].name,
             getterName : debtName[0].name,
             giveReason : element.splitNote,
-            giveAmt : element.splitAmount
+            giveAmt : element.splitAmount,
+            giverImg : splitName[0].userImage,
+            getterImg : debtName[0].userImage
         }
         allArray.push(allObject)
         if(allArray.length == splitAll.length){
@@ -268,10 +293,19 @@ app.get('/settleDebt', async(req,res) => {
     res.sendFile(__dirname + '/views/settleUp.html')
 })
 
+app.get('/userSettings', async(req,res) => {
+    res.sendFile(__dirname + '/views/userSettings.html')
+})
+
 app.get('/settleUser/:id',authenticateToken, async(req,res) => {
     // console.log(req.params['id'])
     const splitBetween = await conn.collection('splitpayments').find({$and : [{splitPayer : user.phoneNo.toString()}, {splitPayee : req.params['id'].toString()}]}).toArray()
-    res.json(splitBetween)
+    const userSplit = await conn.collection('userdetails').find({phoneNo : Number(req.params['id'])}).toArray()
+
+    const userArray = []
+    userArray.push(splitBetween)
+    userArray.push(userSplit)
+    res.json(userArray)
 })
 
 app.get('/settleOption', async(req,res) => {
