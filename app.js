@@ -14,6 +14,7 @@ require('dotenv').config()
 const session = require('express-session')
 let accessToken
 let user
+const PORT = process.env.PORT
 const details = require('./server/models/paymentSchema')
 const splitpayment = require('./server/models/splitSchema')
 const passport = ('passport')
@@ -353,6 +354,6 @@ app.use('/createUser', userCreate)
 // const tokenCreate = require("./server/routes/user")
 // app.use('/createToken', tokenCreate)
 
-app.listen(9000, () =>{
+app.listen(PORT, () =>{
     console.log("Server Started")
 })
