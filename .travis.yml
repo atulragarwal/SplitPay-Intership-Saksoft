@@ -8,12 +8,11 @@ install:
   - npm install
 
 script:
-  - npm test
-  - npm run build
+  - npm install
 
 deploy:
   provider: pages
   skip-cleanup: true
   github-token: $GITHUB_TOKEN
   on:
-    branch: gh-pages
+    branch: main
