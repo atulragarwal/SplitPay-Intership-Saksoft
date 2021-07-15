@@ -2,7 +2,7 @@ const express = require('express')
 const bodyParser= require('body-parser')
 const ObjectId = require('mongodb').ObjectID
 const mongoose = require('mongoose')
-const url = 'mongodb://localhost/splitpaydb'
+const uri = 'mongodb+srv://atulragarwal:atul2885@cluster0.ifezn.mongodb.net/splitpaydb?retryWrites=true&w=majority'
 const app = express()
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
@@ -20,7 +20,14 @@ const splitpayment = require('./server/models/splitSchema')
 const passport = ('passport')
 // const initializePassport = require('./passportConfig')
 // initializePassport(passport, checkAll.emailId)
-mongoose.connect(url)
+
+// const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(uri, {
+    useCreateIndex : true,
+    useFindAndModify : false,
+    useNewUrlParser : true,
+    useUnifiedTopology : true
+})
 const conn = mongoose.connection
 
 conn.on('open', () => {
