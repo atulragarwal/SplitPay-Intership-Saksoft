@@ -14,7 +14,7 @@ require('dotenv').config()
 const session = require('express-session')
 let accessToken
 let user
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 9000
 const details = require('./server/models/paymentSchema')
 const splitpayment = require('./server/models/splitSchema')
 const passport = ('passport')
@@ -121,7 +121,7 @@ app.get('/home', (req,res) =>{
     const cursor1 = conn.collection('details').find().toArray()
     .then(results => {
         // console.log(results)
-        res.render('home.ejs', {details: results})
+        res.sendFile(__dirname + '/views/home.html')
     })
     .catch(error => console.log(error))
     console.log(cursor1)
@@ -223,7 +223,7 @@ app.post('/makeSplit', authenticateToken, async(req, res)=>{
 
 app.get('/splits',async(req,res) => {
     // const userCollects = await conn.collection('details').find({payer})
-    res.render('newSplit.ejs')
+    res.sendFile(__dirname + '/views/newSplit.html')
 })
 
 app.get('/getSplits', async(req,res) => {
