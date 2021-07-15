@@ -93,7 +93,7 @@
         <script>
             let tokenId = sessionStorage.getItem('accessToken');
             console.log('Token '+tokenId);
-            fetch('http://localhost:9000/showCollect',{
+            fetch('https://splitpayatul.herokuapp.com/showCollect',{
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -129,7 +129,7 @@
             })
             .catch(error => console.log(error))
 
-            fetch('http://localhost:9000/allSplits',{
+            fetch('https://splitpayatul.herokuapp.com/allSplits',{
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -161,7 +161,7 @@
             function goSettle(userSettleId){
                 // var userSettleId = this.userSettle.value;
                 sessionStorage.setItem('userIdentity', userSettleId);
-                // window.location.href = "http://localhost:9000/settleDebt";
+                // window.location.href = "https://splitpayatul.herokuapp.com/settleDebt";
                 // alert(userSettleId);
                 // sessionStorage.setItem('userIdentity', userSettleId);
                 // var settleUrl = 'http://127.0.0.1:5500/Frontend/HTML/settleUp.html';

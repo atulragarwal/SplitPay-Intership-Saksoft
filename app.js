@@ -27,6 +27,10 @@ mongoose.connect(uri, {
     useFindAndModify : false,
     useNewUrlParser : true,
     useUnifiedTopology : true
+}).then(() => {
+    res.json("Connection Completed")
+}).catch((err) => {
+    res.json(err)
 })
 const conn = mongoose.connection
 
@@ -153,6 +157,7 @@ app.post('/createToken', async(req,res) => {
         }
     }
     catch(err){
+        res.json("Connection Failed")
         console.log(err)
     }
 })

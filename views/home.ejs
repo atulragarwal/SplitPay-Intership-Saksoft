@@ -80,7 +80,7 @@
         </div>
         <script>
             //fetching user token
-            fetch('http://localhost:9000/fetchToken',{
+            fetch('https://splitpayatul.herokuapp.com/fetchToken',{
                 // mode:'no-cors',
                 method: 'GET',
                 headers: {
@@ -101,7 +101,7 @@
             let userToken = sessionStorage.getItem('accessToken')
             console.log(userToken)
 
-            fetch('http://localhost:9000/fetchUserDetail',{
+            fetch('https://splitpayatul.herokuapp.com/fetchUserDetail',{
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -120,7 +120,7 @@
         .catch(transError => console.log('Error'+transError))
 
         //fetching user Transactions
-        fetch('http://localhost:9000/fetchTransactions',{
+        fetch('https://splitpayatul.herokuapp.com/fetchTransactions',{
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

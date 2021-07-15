@@ -93,7 +93,7 @@
         <script>
             let tokenId = sessionStorage.getItem('accessToken');
             console.log('Token '+tokenId);
-            fetch('http://localhost:9000/showDebt',{
+            fetch('https://splitpayatul.herokuapp.com/showDebt',{
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
