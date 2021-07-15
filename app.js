@@ -95,15 +95,19 @@ app.post('/deleteDet', (req,res) => {
 //     ]
 // })
 
-app.get("/", (req,res)=> {
-    const cursor = conn.collection('details').find().toArray()
-    .then(results => {
-        console.log("Fetch Success")
-        res.render('pay.ejs', {details: results})
-    })
-    .catch(error => console.log(error))
-    console.log(cursor)
-})
+app.get("/", (req, res) => {
+    res.send("Welcome");
+  });
+
+// app.get("/", (req,res)=> {
+//     const cursor = conn.collection('details').find().toArray()
+//     .then(results => {
+//         console.log("Fetch Success")
+//         res.render('pay.ejs', {details: results})
+//     })
+//     .catch(error => console.log(error))
+//     console.log(cursor)
+// })
 
 app.get("", (req, res) => {
     res.sendFile(__dirname + '/views/pay.html')
