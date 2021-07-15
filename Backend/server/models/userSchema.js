@@ -14,6 +14,9 @@ const userDetailSchema = new mongoose.Schema({
     },
     password : {
         type : String
+    },
+    userImage : {
+        type : String
     }
 
 })

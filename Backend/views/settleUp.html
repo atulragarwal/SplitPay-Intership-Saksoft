@@ -60,11 +60,11 @@
                 <div class="bottomNav" style="background-color: rgb(242,242,242);">
                     <div class="paymentOption">
                         <i class="fas fa-money-bill-wave-alt"></i>
-                        <p><a href="home.html">Payments</a></p>
+                        <p><a href="/home">Payments</a></p>
                     </div>
                     <div class="paymentOption">
                         <i class="fas fa-chart-pie"></i>
-                        <p><a href="splitCollect.html">Splits</a></p>
+                        <p><a href="/getSplits">Splits</a></p>
                     </div>
                     <div class="paymentOption">
                         <i class="fas fa-cog"></i>
@@ -93,11 +93,11 @@
         .then(data => {
             console.log(data);
 
-            document.getElementById('transBalance').innerHTML = data[0].splitAmount;
+            document.getElementById('transBalance').innerHTML = data[0][0].splitAmount;
 
-            document.getElementById('settleUser').innerHTML = data[0].splitPayee;
+            document.getElementById('settleUser').innerHTML = data[1][0].name;
             // var srcBegin = "http://127.0.0.1:8000";
-            // document.getElementById('userDisp').src = srcBegin+data.user.profile_pic;
+            document.getElementById('userDisp').src = '/uploads/'+data[1][0].userImage;
 
             let tableId = document.getElementById('friendTrans');
 

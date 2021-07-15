@@ -140,7 +140,7 @@
                 var nameDisplay =  document.getElementById('displayTable');
                 transDetails.forEach(element => {
                         console.log(element);
-                        nameDisplay.innerHTML += '<tr>'+'<td>'+element.giverName+'</td>'+'<td>'+element.getterName+'</td>'+'<td class="payGet">'+element.giveReason+'</td>'+'<td>'+element.giveAmt+'</td>'+'</tr>'+'<tr class="rowGap">'+'<td></td><td></td>'+'</tr>';
+                        nameDisplay.innerHTML += '<tr>'+'<td>'+'<img class="imgEdit" width="50px" height="50px" src=../uploads/'+element.giveImg+'>'+'</td>'+'<td width="50%">'+element.giverName+'</td>'+'<td>'+'<img class="imgEdit" width="50px" height="50px" src=/uploads/'+element.getImg+'>'+'</td>'+'<td>'+element.getterName+'</td>'+'<td>'+element.giveAmt+'</td>'+'</tr>'+'<tr class="rowGap">'+'<td></td><td></td>'+'</tr>';
                 });
             }
         })

@@ -38,50 +38,47 @@
                 </div>
                 <a href="qrView.html" style="color: black; margin-left: auto;margin-top: 0;"><i style="margin-right: 15px; margin-left: auto;" class="fas fa-arrow-right"></i></a>
             </div>
-            <div class="settingOption">
+            <div class="settingOption" style="margin-top: 25px;">
                 <div style="margin-left: 15px;">
-                    <h4>View Profile</h4>
-                    <p>View your account details</p>
+                    <h4>Site Documentation</h4>
+                    <p>Complete tutorial on using the SplitPay Mobile Web Application</p>
                 </div>
-                <a href="userDetails.html" style="color: black; margin-left: auto;margin-top: 0;"><i style="margin-right: 15px; margin-left: auto;" class="fas fa-arrow-right"></i></a>
+                <a href="https://docs.google.com/document/d/1XRGH7iECFYXqqP-rYERKpPSdEJZUMrsEKaR2Om5JhM0/edit?usp=sharing" style="color: black; margin-left: auto;margin-top: 0;"><i style="margin-right: 15px; margin-left: auto;" class="fas fa-arrow-right"></i></a>
             </div>
             <div class="settingOption" style="margin-bottom:80px">
                 <div style="margin-left: 15px;">
                     <h4>Logout</h4>
                     <p>Sign Out of your account</p>
                 </div>
-                <button onclick="userLogout()" style="color: black; margin-left: auto;margin-top: 0;width: 20px; border: none;"><i style="margin-right: 15px; margin-left: auto;" class="fas fa-sign-out-alt"></i></button>
+                <a href="/login" style="color: black; margin-left: auto;margin-top: 0;"><i style="margin-right: 15px; margin-left: auto;" class="fas fa-arrow-right"></i></a>
             </div>
+            
             <div class="bottomNav" style="background-color: rgb(242,242,242);">
                 <div class="paymentOption">
                     <i class="fas fa-money-bill-wave-alt"></i>
-                    <p><a href="home.html">Payments</a></p>
+                    <p><a href="/home">Payments</a></p>
                 </div>
                 <div class="paymentOption">
                     <i class="fas fa-chart-pie"></i>
-                    <p><a href="splitCollect.html">Splits</a></p>
+                    <p><a href="/getSplits">Splits</a></p>
                 </div>
                 <div class="paymentOption">
                     <i class="fas fa-cog"></i>
-                    <p><a href="userSettings.html">Settings</a></p>
-                </div>
-                <div class="paymentOption">
-                    <i class="fas fa-cog"></i>
-                    <p><a href="https://docs.google.com/document/d/1XRGH7iECFYXqqP-rYERKpPSdEJZUMrsEKaR2Om5JhM0/edit?usp=sharing">Site Tutorial Document</a></p>
+                    <p><a href="/userSettings">Settings</a></p>
                 </div>
             </div>
         </div>
         <script>
-            let tokenId = sessionStorage.getItem('userToken');
+            let tokenId = sessionStorage.getItem('accessToken');
             console.log('Token '+tokenId)
 
             //fetching user details
-            fetch('http://127.0.0.1:8000/auth/djoser/users/me/',{
+            fetch('http://localhost:9000/fetchUserDetail',{
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                     'User-Agent': 'PostmanRuntime/7.28.0',
-                    'Authorization': 'Token '+tokenId
+                    'Authorization': 'Bearer '+tokenId
                 },
             }).then(res =>{
                 return res.json()
@@ -89,12 +86,12 @@
             .then(data => {
                 console.log(data);
                 document.getElementById('renderName').innerHTML = data.name;
-                document.getElementById('renderBal').innerHTML = data.phone_number;
-                document.getElementById("userDisp").src = data.profile_pic;
+                document.getElementById('renderBal').innerHTML = data.phoneNo;
+                document.getElementById("userDisp").src = '/uploads/'+data.userImage;
             })
             .catch(error => console.log('Error'))
         </script>
-        <script>
+        <!-- <script>
             function userLogout(){
                 let logoutId = sessionStorage.getItem('userToken');
                 fetch('http://127.0.0.1:8000/auth/djoser/token/logout/',{
@@ -113,6 +110,6 @@
             })
             .catch(error => console.log('Error'))
             }
-        </script>
+        </script> -->
     </body>
 </html>
