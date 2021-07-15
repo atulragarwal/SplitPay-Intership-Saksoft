@@ -8,12 +8,12 @@ install:
   - npm install
 
 script:
-  - npm run
+  - npm run app.js
 
 deploy:
   provider: pages
   skip-cleanup: true
   github-token: $GITHUB_TOKEN
-  local_dir: Backend/app.js
+  # local_dir: Backend/app.js
   on:
     branch: main
