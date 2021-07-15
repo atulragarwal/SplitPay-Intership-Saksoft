@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SplitPay</title>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link rel="icon" type="image" href="../Images/icon.jpg">
+        <link rel="Stylesheet" href="../CSS/login.css">
+        <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap" rel="stylesheet">
+        <style>
+            .m-container{
+                background-image: url(../Images/loginbg.jpeg);
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
+            .b-body{
+                margin-top: 200px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="m-container">
+            <div class="b-body">
+                <h3>Welcome Back!</h3>
+                <h4>Log in to jump back in</h4>
+                <form id="form" method="POST" action="/SplitPay-Intership-Saksoft/createToken">
+                    <label for="u-email">Your Email</label><br>
+                    <input name="uEmail" id="u-email" required placeholder="xyz@xyz.com" type="email"><br>
+                    <label for="u-pass">Your Password</label><br>
+                    <input name=uPass id="u-pass" placeholder="Password" required type="password"><br>
+                    <!-- <a href="#">Forgot Password</a> -->
+                    <input type="submit" value="Continue">
+                </form>
+                <a href="/SplitPay-Intership-Saksoft/signup">Click Here to Sign Up</a>
+            </div>
+        </div>
+    </body>
+</html>

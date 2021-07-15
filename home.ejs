@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SplitPay</title>
+        <link rel="icon" type="image" href="images/icon.jpg">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link rel="Stylesheet" href="css/login.css">
+        <link rel="stylesheet" href="css/payments.css">
+        <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+        <script src="https://kit.fontawesome.com/bc6f27e589.js" crossorigin="anonymous"></script>
+        <style>
+            tr{
+                outline: 1px solid #5c5c5c;
+                text-align: center;
+                height: 50px;
+            }
+            .rowGap{
+                height: 20px;
+            }
+            .payDue{
+                color: red;
+            }
+            .payGet{
+                color: green;
+            }
+            .imgEdit{
+                border: 3px solid #5c07db;
+                border-radius: 50%;
+                width: 50px;
+                height: 50px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="m-container">
+            <div class="b-head">
+                <h3 style="display: inline-block;font-size: 30px;margin-left: 40px;">Payments Home</h3>
+            </a><a style="float: right;" href="https://docs.google.com/document/d/1XRGH7iECFYXqqP-rYERKpPSdEJZUMrsEKaR2Om5JhM0/edit?usp=sharing"><i class="far fa-question-circle"></i></a>
+            </div>
+            <div class="b-body">
+                <div class="u-card">
+                    <div class="card-left">
+                        <p class="card-title">Name</p>
+                        <p id="renderName" class="card-det"> </p>
+                        <p class="card-title">Phone Number</p>
+                        <p id="renderBal" class="card-det"><i class="fas fa-rupee-sign"></i></p>
+                    </div>
+                    <div class="card-right">
+                        <img id="userQr" width="100px" height="100px">
+                        <p class="card-title">Your Qr Code</p>
+                    </div>
+                </div>
+                <div>
+                <a href="/splits" class="payButton addButton">New Split</a><a href="/" class="payButton newButton">New Payment</a>
+                </div>
+                <h3>Recent Transactions</h3>
+                <span id="historyRender">
+                    <div class="recTrans">
+                        <table id="displayTable">
+                        </table>
+                    </div><hr>
+                </span>
+            </div>
+            <div class="bottomNav" style="background-color: rgb(242,242,242);">
+                <div class="paymentOption">
+                    <i class="fas fa-money-bill-wave-alt"></i>
+                    <p><a href="/home">Payments</a></p>
+                </div>
+                <div class="paymentOption">
+                    <i class="fas fa-chart-pie"></i>
+                    <p><a href="/getSplits">Splits</a></p>
+                </div>
+                <div class="paymentOption">
+                    <i class="fas fa-cog"></i>
+                    <p><a href="/userSettings">Settings</a></p>
+                </div>
+             </div>
+        </div>
+        <script>
+            //fetching user token
+            fetch('http://localhost:9000/fetchToken',{
+                // mode:'no-cors',
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'User-Agent': 'PostmanRuntime/7.28.0'
+                }
+            }).then(res =>  {
+                return res.json();
+            })
+            .then(data => {
+                console.log(data);
+                sessionStorage.setItem('accessToken', data)
+            })
+            .catch(error => {console.log(error)})
+
+            //fetching transactions
+
+            let userToken = sessionStorage.getItem('accessToken')
+            console.log(userToken)
+
+            fetch('http://localhost:9000/fetchUserDetail',{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'User-Agent': 'PostmanRuntime/7.28.0',
+                'Authorization': 'Bearer '+userToken
+            },
+            }).then(res =>{
+            return res.json()
+            })
+            .then(userDetails => {
+            document.getElementById('renderName').innerHTML = userDetails.name
+            document.getElementById('renderBal').innerHTML = userDetails.phoneNo
+            let qrId = "https://api.qrserver.com/v1/create-qr-code/?data="+userDetails.phoneNo+"@paytm&amp;";
+            document.getElementById('userQr').src = qrId;
+                })
+        .catch(transError => console.log('Error'+transError))
+
+        //fetching user Transactions
+        fetch('http://localhost:9000/fetchTransactions',{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'User-Agent': 'PostmanRuntime/7.28.0',
+                'Authorization': 'Bearer '+userToken
+            }
+        }).then(result =>{
+            return result.json()
+        })
+        .then(transDetails => {
+            console.log(transDetails);
+            let i=0;
+            if(transDetails.length == 0){
+                document.getElementById('historyRender').innerHTML = "No Recent Transactions"
+            }
+            else{
+                var nameDisplay =  document.getElementById('displayTable');
+                transDetails.forEach(element => {
+                        console.log(element);
+                        nameDisplay.innerHTML += '<tr>'+'<td>'+'<img class="imgEdit" width="50px" height="50px" src=../uploads/'+element.giveImg+'>'+'</td>'+'<td width="50%">'+element.giverName+'</td>'+'<td>'+'<img class="imgEdit" width="50px" height="50px" src=/uploads/'+element.getImg+'>'+'</td>'+'<td>'+element.getterName+'</td>'+'<td>'+element.giveAmt+'</td>'+'</tr>'+'<tr class="rowGap">'+'<td></td><td></td>'+'</tr>';
+                });
+            }
+        })
+        .catch(transError => console.log('Error'+transError))
+        </script>
+    </body>
+</html>

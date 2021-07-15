@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SplitPay</title>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link rel="Stylesheet" href="css/login.css">
+        <link rel="icon" type="image" href="images/icon.jpg">
+        <link rel="stylesheet" href="css/payments.css">
+        <link rel="stylesheet" href="css/pay.css">
+        <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+        <script src="https://kit.fontawesome.com/bc6f27e589.js" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <div class="m-container">
+            <div class="b-head">
+                <a href="home"><i class="fas fa-arrow-left"></i></a><a style="float: right;" href="https://docs.google.com/document/d/1XRGH7iECFYXqqP-rYERKpPSdEJZUMrsEKaR2Om5JhM0/edit?usp=sharing"><i class="far fa-question-circle"></i></a>
+                <h3 style="display: inline-block;font-size: 30px;margin-left: 40px;margin-top: 20px;">Update Payments</h3>
+            </div>
+            <div class="paymentForm">
+                <form method="POST" action="/updateDet" id="paymentDetailsForm">
+                    <label for="payeeNumber">Enter Phone Number:</label><br>
+                    <input class = "amtInput" name="payerNum" id="payeeNumber" type="tel" required placeholder="XXXXX XXXXX"><br><br>
+                    <label for="paymentNote">Enter New Note</label><br>
+                    <input class="amtInput" name="updateVal" id="paymentNote" type="text" required placeholder="Note"><br><br>
+                    <input value="Update" type="submit">
+                </form>
+            </div>
+            <div class="bottomNav" style="background-color: rgb(242,242,242);">
+                <div class="paymentOption">
+                    <i class="fas fa-money-bill-wave-alt"></i>
+                    <p><a href="home.html">Payments</a></p>
+                </div>
+                <div class="paymentOption">
+                    <i class="fas fa-chart-pie"></i>
+                    <p><a href="splitCollect.html">Splits</a></p>
+                </div>
+                <div class="paymentOption">
+                    <i class="fas fa-cog"></i>
+                    <p><a href="userSettings.html">Settings</a></p>
+                </div>
+            </div>
+        </div>
+        <!-- <script>
+
+            // document.getElementById('paymentDetailsForm').addEventListener('submit', (e) =>{
+            //     e.preventDefault();
+            // })
+            function createPayment(){
+            //     document.getElementById('paymentDetailsForm').addEventListener('submit', (e) =>{
+            //     e.preventDefault();
+            // });
+            let payAmt = document.getElementById("paymentAmt").value;
+            let payReceiver = document.getElementById('payeeNumber').value;
+            let payNote = document.getElementById('paymentNote').value;
+
+            fetch('/updateDet',{
+                // mode:'no-cors',
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    "payer": payReceiver,
+                    "payee": payNote,
+                    "amount": parseInt(payAmt)
+                })
+            })
+        }
+        </script> -->
+    </body>
+</html>

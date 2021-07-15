@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SplitPay</title>
+        <link rel="icon" type="image" href="../Images/icon.jpg">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link rel="Stylesheet" href="../CSS/login.css">
+        <link rel="stylesheet" href="../CSS/payments.css">
+        <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+        <script src="https://kit.fontawesome.com/bc6f27e589.js" crossorigin="anonymous"></script>
+        <style>
+            .u-card{
+                margin-top: 20px;
+                background-color: red;
+                /* opacity: 0.8; */
+                text-align: center;
+                height: 80px;
+            }
+            .u-card > p{
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: 20px;
+            }
+        </style>
+    </head>
+    <script>
+        let tokenId = sessionStorage.getItem('userToken');
+        console.log('Token '+tokenId)
+        fetch('http://127.0.0.1:8000/auth/djoser/users/me/',{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'User-Agent': 'PostmanRuntime/7.28.0',
+                'Authorization': 'Token '+tokenId
+            },
+        }).then(res =>{
+            return res.json()
+        })
+        .then(data => {
+            console.log(data);
+            document.getElementById('renderName').innerHTML = data.name;
+            document.getElementById('renderBal').innerHTML = data.balance;
+        })
+        .catch(error => console.log('Error'))
+    </script>
+    <body>
+        <div class="m-container">
+            <div class="b-head">
+                <h3>Splits Payments</h3>
+            </div>
+            <div class="b-body">
+                <div class="u-card">
+                    <!-- <div class="card-left"> -->
+                        <p id="renderName" class="card-det">You Need to Pay <i class="fas fa-rupee-sign"></i> 100</p>
+                    <!-- </div> -->
+                </div>
+                <h3 style="float: left;">Active Splits</h3>
+                <div class="u-img">
+                    <div class="freq-cont">
+                        <img src="../Images/atul_260x261.jpeg" class="userImage">
+                        <p class="userName">Atul</p>
+                    </div>
+                    <div class="freq-cont">
+                        <img src="../Images/atul_260x261.jpeg" class="userImage">
+                        <p class="userName">Atul</p>
+                    </div>
+                    <div class="freq-cont">
+                        <img src="../Images/atul_260x261.jpeg" class="userImage">
+                        <p class="userName">Atul</p>
+                    </div>
+                    <div class="freq-cont">
+                        <img src="../Images/atul_260x261.jpeg" class="userImage">
+                        <p class="userName">Atul</p>
+                    </div>
+                </div>
+                <h3>All Splits</h3>
+                <span>
+                <div class="recTrans">
+                    <img src="../Images/atul_260x261.jpeg" class="userImage"><p style="vertical-align:top;margin-left: 10px;">Atul</p><p style="vertical-align:top;float: right;">-35.00</p>
+                </div><hr>
+                <div class="recTrans">
+                    <img src="../Images/atul_260x261.jpeg" class="userImage"><p style="vertical-align:top;margin-left: 10px;">Atul</p><p style="vertical-align:top;float: right;">-35.00</p>
+                </div><hr>
+                <div class="recTrans">
+                    <img src="../Images/atul_260x261.jpeg" class="userImage"><p style="vertical-align:top;margin-left: 10px;">Atul</p><p style="vertical-align:top;float: right;">-35.00</p>
+                </div><hr>
+                <div class="recTrans">
+                    <img src="../Images/atul_260x261.jpeg" class="userImage"><p style="vertical-align:top;margin-left: 10px;">Atul</p><p style="vertical-align:top;float: right;">-35.00</p>
+                </div><hr>
+            </span>
+            </div>
+            <div class="bottomNav">
+                <div class="paymentOption">
+                    <i class="fas fa-money-bill-wave-alt"></i>
+                    <p>Payments</p>
+                </div>
+                <div class="paymentOption">
+                    <i class="fas fa-chart-pie"></i>
+                    <p>Splits</p>
+                </div>
+                <div class="paymentOption">
+                    <i class="fas fa-cog"></i>
+                    <p>Settings</p>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
