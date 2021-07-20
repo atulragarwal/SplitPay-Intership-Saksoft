@@ -134,3 +134,9 @@ span {
 .u-img::-webkit-scrollbar {
   display: none;
 }
+
+@media screen and (max-width: 600px) {
+  .bottomNav {
+    width: 100%;
+  }
+}

@@ -108,7 +108,7 @@ app.post('/deleteDet', (req,res) => {
 // })
 
 app.get("/", (req, res) => {
-    res.send("Welcome");
+    res.redirect("/login");
   });
 
 // app.get("/", (req,res)=> {
@@ -121,7 +121,7 @@ app.get("/", (req, res) => {
 //     console.log(cursor)
 // })
 
-app.get("", (req, res) => {
+app.get("/makeUserPayment", (req, res) => {
     res.sendFile(__dirname + '/views/pay.html')
 })
 // app.get('/home', (req,res) => {
