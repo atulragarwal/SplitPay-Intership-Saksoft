@@ -91,3 +91,9 @@ td {
 /* td:nth-child(2) {
   width: 50%;
 } */
+
+@media screen and (max-width: 600px) {
+  .m-container {
+    width: 100%;
+  }
+}
