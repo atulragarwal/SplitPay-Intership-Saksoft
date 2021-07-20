@@ -1,5 +1,6 @@
 const express = require('express')
 const bodyParser= require('body-parser')
+const cors = require('cors')
 const ObjectId = require('mongodb').ObjectID
 const mongoose = require('mongoose')
 const uri = 'mongodb+srv://atulragarwal:atul2885@cluster0.ifezn.mongodb.net/splitpaydb?retryWrites=true&w=majority'
@@ -10,6 +11,7 @@ const multer = require('multer')
 app.use(bodyParser.urlencoded({ extended: true, limit:'30mb' }));
 app.use(bodyParser.json({extended: true}))
 const path = require('path')
+app.use(cors())
 require('dotenv').config()
 const session = require('express-session')
 let accessToken
@@ -54,7 +56,6 @@ const upload = multer({
         fileSize : 10000000
     }
 })
-
 app.use(express.json())
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
