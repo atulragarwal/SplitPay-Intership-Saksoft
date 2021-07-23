@@ -65,7 +65,11 @@
             };
             document.getElementById('passwordOne').addEventListener('keyup', () =>{
                 let passVal = document.getElementById('passwordOne').value;
-                if(!/[a-z]{8}/.test(passVal)){
+                // if(!/[a-z]/.test(passVal)){
+                //     document.getElementById('passMessage').innerHTML = "Password Needs To be 8 Characters Long!";
+                //     return false;
+                // }
+                if(passVal.length<8){
                     document.getElementById('passMessage').innerHTML = "Password Needs To be 8 Characters Long!";
                     return false;
                 }
@@ -81,7 +85,7 @@
                 count = 1;
             })
             function returnVal(){
-                if(document.getElementById('passwordOne')!=document.getElementById('passwordTwo')){
+                if(document.getElementById('passwordOne').value!=document.getElementById('passwordTwo').value){
                     document.getElementById('passMessage').innerHTML = "Passwords Need to Match!";
                     return false;
                 }
