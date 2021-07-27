@@ -309,7 +309,7 @@
 
             let userCode = sessionStorage.getItem('userIdentity');
             console.log('ID: '+userCode);
-            fetchUrl = 'https://splitpayatul.herokuapp.com/settlePayment/'+userCode+'/';
+            fetchUrl = '/settlePayment/'+userCode+'/';
             fetch(fetchUrl,{
             method: 'GET',
             headers: {
@@ -318,7 +318,7 @@
                 'Authorization': 'Bearer '+tokenId
             },
         }).then(res =>{
-            window.location.href = 'https://splitpayatul.herokuapp.com/home';
+            window.location.href = '/home';
         })
         .catch(error => console.log(error))
       }

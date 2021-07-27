@@ -113,7 +113,7 @@
                 return false;
             }
 
-            fetch('https://splitpayatul.herokuapp.com/makeSplit',{
+            fetch('/makeSplit',{
                 // mode:'no-cors',
                 method: 'POST',
                 headers: {
@@ -130,7 +130,7 @@
             })
             .then(data => {
                 console.log(data);
-                window.location.href = 'https://splitpayatul.herokuapp.com/home';
+                window.location.href = '/home';
             })
             .catch(error => {
                 console.log('error'+error);

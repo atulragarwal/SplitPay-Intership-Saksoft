@@ -65,7 +65,7 @@
             }
             let userToken = sessionStorage.getItem('accessToken')
             console.log(userToken)
-            fetch('https://splitpayatul.herokuapp.com/payment',{
+            fetch('/payment',{
                 // mode:'no-cors',
                 method: 'POST',
                 headers: {
@@ -80,7 +80,7 @@
                 })
             })
             .then(() => {
-                window.location.href = 'https://splitpayatul.herokuapp.com/home';
+                window.location.href = '/home';
             })
             .catch(error => {
                 console.log('error'+error);

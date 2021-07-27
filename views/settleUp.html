@@ -79,7 +79,7 @@
             let userCode = sessionStorage.getItem('userIdentity');
             console.log('ID: '+userCode);
 
-            fetchUrl = 'https://splitpayatul.herokuapp.com/settleUser/'+userCode+'/';
+            fetchUrl = '/settleUser/'+userCode+'/';
             fetch(fetchUrl,{
             method: 'GET',
             headers: {
