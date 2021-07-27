@@ -3,7 +3,7 @@ const express = require('express')
 const userSchema = require('../models/userSchema')
 const userRouter = express.Router()
 const ObjectId = require('mongodb').ObjectID
-const bcrypt = require('bcrypt')
+const bcryptjs = require('bcryptjs')
 const multer = require('multer')
 
 const fileStorage = multer.diskStorage({
@@ -26,7 +26,7 @@ const upload = multer({
 const userDetails = require('../models/userSchema')
 
 userRouter.post('/', upload.single('profile_pic'), async(req,res) =>{
-    const hashPass = await bcrypt.hash(req.body.uPass,10)
+    const hashPass = await bcryptjs.hash(req.body.uPass,10)
     console.log(req)
     const makeUser = new userDetails({
         name: req.body.uName,

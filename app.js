@@ -6,7 +6,7 @@ const mongoose = require('mongoose')
 const uri = 'mongodb+srv://atulragarwal:atul2885@cluster0.ifezn.mongodb.net/splitpaydb?retryWrites=true&w=majority'
 const app = express()
 const jwt = require('jsonwebtoken')
-const bcrypt = require('bcrypt')
+const bcryptjs = require('bcryptjs')
 const multer = require('multer')
 app.use(bodyParser.urlencoded({ extended: true, limit:'30mb' }));
 app.use(bodyParser.json({extended: true}))
@@ -149,7 +149,7 @@ app.get('/login', (req,res) => {
 app.post('/createToken', async(req,res) => {
     try{
         const checkAll = await conn.collection('userdetails').findOne({emailId : req.body.uEmail})
-        if(bcrypt.compare(checkAll.password, req.body.uPass)){
+        if(bcryptjs.compare(checkAll.password, req.body.uPass)){
             user = checkAll
             accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET)
             res.redirect('/home')
