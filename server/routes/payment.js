@@ -8,8 +8,8 @@ router.get('', async(req, res) =>{
     try{
         const paymentDetails = await details.find()
         res.json(paymentDetails)
-        console.log('hello')
-        console.log(paymentDetails)
+        // console.log('hello')
+        // console.log(paymentDetails)
     }
     catch(err){
         res.send(err)

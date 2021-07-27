@@ -152,6 +152,8 @@ app.post('/createToken', async(req,res) => {
         if(bcrypt.compare(checkAll.password, req.body.uPass)){
             user = checkAll
             accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET)
+            console.log(accessToken)
+            console.log(user)
             res.redirect('/home')
             // console.log(accessToken)
             console.log('Login Success')
@@ -170,6 +172,8 @@ function authenticateToken(req,res,next)
 {
     const authHeader = req.headers['authorization']
     const token = authHeader.split(' ')[1]
+    // console.log('hign')
+    // console.log(token)
 
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
         if(err) return res.json(err)
@@ -205,7 +209,7 @@ app.get('/fetchTransactions', authenticateToken, async(req, res) => {
 })
 
 app.get('/fetchToken', async(req,res) => {
-    res.json(user)
+    res.json(accessToken)
 })
 
 app.post('/makeSplit', authenticateToken, async(req, res)=>{
@@ -365,6 +369,7 @@ app.post('/payment', authenticateToken, async(req,res) => {
 
 const userCreate = require("./server/routes/user")
 const initialize = require('./passportConfig')
+const { access } = require('fs')
 app.use('/createUser', userCreate)
 
 // const tokenCreate = require("./server/routes/user")

@@ -80,7 +80,7 @@
         </div>
         <script>
             //fetching user token
-            fetch('https://splitpayatul.herokuapp.com/fetchToken',{
+            fetch('/fetchToken',{
                 // mode:'no-cors',
                 method: 'GET',
                 headers: {
@@ -91,17 +91,24 @@
                 return res.json();
             })
             .then(data => {
-                console.log(data);
+                // console.log(data);
+                tempAccessToken = data;
+                console.log(tempAccessToken)
                 sessionStorage.setItem('accessToken', data)
+                sessionStorage.setItem('loaded', 1)
             })
             .catch(error => {console.log(error)})
+            let loadedStatus = sessionStorage.getItem('loaded');
+            if(loadedStatus != 1){
+                location.reload()
+            }
 
             //fetching transactions
 
             let userToken = sessionStorage.getItem('accessToken')
-            console.log(userToken)
+            // console.log(userToken)
 
-            fetch('https://splitpayatul.herokuapp.com/fetchUserDetail',{
+            fetch('/fetchUserDetail',{
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -120,7 +127,7 @@
         .catch(transError => console.log('Error'+transError))
 
         //fetching user Transactions
-        fetch('https://splitpayatul.herokuapp.com/fetchTransactions',{
+        fetch('/fetchTransactions',{
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -139,7 +146,7 @@
             else{
                 var nameDisplay =  document.getElementById('displayTable');
                 transDetails.forEach(element => {
-                        console.log(element);
+                        // console.log(element);
                         nameDisplay.innerHTML += '<tr>'+'<td>'+'<img class="imgEdit" width="50px" height="50px" src=../uploads/'+element.giveImg+'>'+'</td>'+'<td width="50%">'+element.giverName+'</td>'+'<td>'+'<img class="imgEdit" width="50px" height="50px" src=/uploads/'+element.getImg+'>'+'</td>'+'<td>'+element.getterName+'</td>'+'<td>'+element.giveAmt+'</td>'+'</tr>'+'<tr class="rowGap">'+'<td></td><td></td>'+'</tr>';
                 });
             }
