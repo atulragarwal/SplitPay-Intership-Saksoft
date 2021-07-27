@@ -152,9 +152,12 @@ app.post('/createToken', async(req,res) => {
         if(bcryptjs.compare(checkAll.password, req.body.uPass)){
             user = checkAll
             accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET)
-            res.redirect('/home')
+            res.redirect('/signup')
             // console.log(accessToken)
             console.log('Login Success')
+        }
+        else{
+            res.redirect('/home')
         }
     }
     catch(err){
