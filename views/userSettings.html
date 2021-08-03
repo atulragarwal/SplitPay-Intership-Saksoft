@@ -25,7 +25,7 @@
                 <h3 style="display: inline-block; font-size: 40px;margin-left: 15px;">User Settings</h3>
             </div>
             <div class="userDetails">
-                <img id="userDisp" src="" class="userImage">
+                <img id="userDisp" src='/fetchImage' class="userImage">
                 <div class="textDetails">
                     <h4 id="renderName" style="font-size: 30px;">Atul Agarwal</h4>
                     <p id="renderBal">8879728598</p>
@@ -87,7 +87,7 @@
                 console.log(data);
                 document.getElementById('renderName').innerHTML = data.name;
                 document.getElementById('renderBal').innerHTML = data.phoneNo;
-                document.getElementById("userDisp").src = '/uploads/'+data.userImage;
+                // document.getElementById("userDisp").src = '/uploads/'+data.userImage;
             })
             .catch(error => console.log('Error'))
         </script>

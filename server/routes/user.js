@@ -5,6 +5,7 @@ const userRouter = express.Router()
 const ObjectId = require('mongodb').ObjectID
 const bcrypt = require('bcryptjs')
 const multer = require('multer')
+const { uploadS3 } = require('../../s3')
 
 const fileStorage = multer.diskStorage({
     destination : function(req, file, callback){
@@ -27,7 +28,12 @@ const userDetails = require('../models/userSchema')
 
 userRouter.post('/', upload.single('profile_pic'), async(req,res) =>{
     const hashPass = await bcrypt.hash(req.body.uPass,10)
-    console.log(req)
+    const imgRes = await uploadS3(req.file).then(() => {
+        console.log(imgRes)
+    }).catch((err) => {
+        console.log(err)
+    })
+    console.log(imgRes)
     const makeUser = new userDetails({
         name: req.body.uName,
         emailId: req.body.uEmail,

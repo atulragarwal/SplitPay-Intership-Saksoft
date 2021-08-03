@@ -19,6 +19,8 @@ let user
 const PORT = process.env.PORT || 9000
 const details = require('./server/models/paymentSchema')
 const splitpayment = require('./server/models/splitSchema')
+const { getImageS3 } = require('./s3')
+
 const passport = ('passport')
 // const initializePassport = require('./passportConfig')
 // initializePassport(passport, checkAll.emailId)
@@ -182,7 +184,14 @@ function authenticateToken(req,res,next)
     })
 }
 
+app.get('/fetchImage', async(req,res) => {
+    const getImageStream = await getImageS3(user.userImage)
+    getImageStream.pipe(res)
+
+})
+
 app.get('/fetchUserDetail', authenticateToken, async(req,res) => {
+    // console.log(getImageStream.pipe(res))
     res.json(user)
 })
 
@@ -369,7 +378,7 @@ app.post('/payment', authenticateToken, async(req,res) => {
 
 const userCreate = require("./server/routes/user")
 const initialize = require('./passportConfig')
-const { access } = require('fs')
+// const { access } = require('fs')
 app.use('/createUser', userCreate)
 
 // const tokenCreate = require("./server/routes/user")
