@@ -165,7 +165,7 @@ app.post('/createToken', async(req,res) => {
         }
     }
     catch(err){
-        res.json("Connection Failed")
+        res.redirect('/signup')
         console.log(err)
     }
 })
