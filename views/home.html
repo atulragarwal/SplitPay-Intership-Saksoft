@@ -80,7 +80,6 @@
         </div>
         <script>
             //fetching user token
-            let userToken = "";
             fetch('/fetchToken',{
                 // mode:'no-cors',
                 method: 'GET',
@@ -93,7 +92,7 @@
             })
             .then(data => {
                 // console.log(data);
-                userToken = data;
+                tempAccessToken = data;
                 console.log(tempAccessToken)
                 sessionStorage.setItem('accessToken', data)
                 sessionStorage.setItem('loaded', 1)
@@ -106,7 +105,7 @@
 
             //fetching transactions
 
-            
+            let userToken = sessionStorage.getItem('accessToken')
             // console.log(userToken)
 
             fetch('/fetchUserDetail',{
