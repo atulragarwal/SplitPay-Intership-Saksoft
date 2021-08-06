@@ -19,7 +19,6 @@ function uploadS3(file){
         Body: fileStream,
         Key: file.filename
     }
-    
     return s3.upload(uploadParams).promise()
 }
 
