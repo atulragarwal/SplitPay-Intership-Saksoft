@@ -1,0 +1,19 @@
+language: node_js
+node_js:
+  - 14
+cache:
+  - npm
+
+install:
+  - npm install
+
+script:
+  - npm test
+
+deploy:
+  provider: heroku
+  api_key: e6e21d10-511f-49ca-ad48-fe88ba2df243
+  app: splitpayatul
+
+on:
+  all_branches: true
